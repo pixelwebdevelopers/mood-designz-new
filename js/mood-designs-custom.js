@@ -57,11 +57,22 @@
             }
             
             if (logoText) {
-                logoText.innerHTML = 'Mood<br>Designz';
+                logoText.innerHTML = 'MoodDesignz';
                 logoText.style.fontSize = '14px';
                 logoText.style.fontWeight = '700';
-                logoText.style.textTransform = 'uppercase';
+                logoText.style.textTransform = 'none';
             }
+        }
+        
+        // 3. Replace footer SVG with Mood Designz text logo
+        const footerSvg = document.querySelector('.mxd-footer__svg-v2');
+        if (footerSvg) {
+            const footerLogoHTML = `
+            <div class="mood-footer-logo">
+                M<img src="${logoSrc}" alt="o" class="footer-oo-logo">dDesignz
+            </div>
+            `;
+            footerSvg.outerHTML = footerLogoHTML;
         }
         
         initEvents();
