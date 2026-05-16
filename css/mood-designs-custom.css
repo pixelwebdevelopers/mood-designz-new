@@ -234,3 +234,98 @@ body.menu-open {
         height: 10vw;
     }
 }
+
+/* Modern Minimal WhatsApp Float */
+.mood-whatsapp-float {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    z-index: 10000;
+    text-decoration: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(20px);
+    transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.mood-whatsapp-float.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+.mood-whatsapp-content {
+    background: rgba(22, 22, 22, 0.7);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 8px 8px 8px 25px;
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s ease;
+}
+
+.mood-whatsapp-text {
+    font-family: var(--_font-default);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.mood-whatsapp-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--mood-lime);
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0 0 20px rgba(195, 255, 6, 0.3);
+}
+
+.mood-whatsapp-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.mood-whatsapp-float:hover .mood-whatsapp-content {
+    background: rgba(22, 22, 22, 0.9);
+    border-color: var(--mood-lime);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.mood-whatsapp-float:hover .mood-whatsapp-icon {
+    transform: rotate(360deg);
+}
+
+.mood-whatsapp-float:hover .mood-whatsapp-text {
+    color: #fff;
+    letter-spacing: 3px;
+}
+
+/* Subtle breathing animation instead of heavy pulse */
+@keyframes mood-breathe {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+.mood-whatsapp-float.active .mood-whatsapp-icon {
+    /* animation: mood-breathe 3s infinite ease-in-out; */
+}
+
+/* Fix Header Logo 2 lines */
+.mxd-logo__text {
+    display: block !important;
+    line-height: 1.1 !important;
+    text-align: left !important;
+}
