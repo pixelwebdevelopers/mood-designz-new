@@ -85,7 +85,7 @@ function startLoader() {
 }
 startLoader();
 
-imgLoad.on('done', instance => {
+imgLoad.on('always', instance => {
   hideLoader();
   pageAppearance();
 });
