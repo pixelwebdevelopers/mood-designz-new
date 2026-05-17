@@ -16,7 +16,7 @@
         <nav class="nav-links">
             <a href="index.html">Home</a>
             <a href="about-us.html">About</a>
-            <a href="works-simple.html">Portfolio</a>
+            <a href="portfolio.html">Portfolio</a>
             <a href="contact.html">Contact</a>
         </nav>
         <div class="nav-actions">
@@ -34,7 +34,7 @@
         <button class="close-menu" aria-label="Close Menu">&times;</button>
         <a href="index.html">Home</a>
         <a href="about-us.html">About</a>
-        <a href="works-simple.html">Portfolio</a>
+        <a href="portfolio.html">Portfolio</a>
         <a href="contact.html">Contact</a>
     </nav>
 
