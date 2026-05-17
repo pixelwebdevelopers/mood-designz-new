@@ -319,13 +319,120 @@ body.menu-open {
     100% { transform: scale(1); opacity: 0.8; }
 }
 
-.mood-whatsapp-float.active .mood-whatsapp-icon {
-    /* animation: mood-breathe 3s infinite ease-in-out; */
-}
-
 /* Fix Header Logo 2 lines */
 .mxd-logo__text {
     display: block !important;
     line-height: 1.1 !important;
     text-align: left !important;
 }
+
+/* Contact Social Cards Grid */
+.mood-social-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.mood-social-card {
+    position: relative;
+    background: #0a0a0a;
+    border-radius: 20px;
+    padding: 45px 35px;
+    text-decoration: none !important;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #1a1a1a;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    overflow: hidden;
+}
+
+.mood-social-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    padding: 1.5px; /* Border thickness */
+    background: linear-gradient(135deg, var(--mood-lime), rgba(255, 255, 255, 0.1) 40%, transparent 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.mood-social-card:hover {
+    background: #0d0d0d;
+    border-color: transparent;
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 20px rgba(195, 255, 6, 0.08);
+}
+
+.mood-social-card:hover::before {
+    opacity: 0.8;
+}
+
+.mood-social-card__inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.mood-social-card__title {
+    color: #ffffff;
+    font-family: var(--_font-default);
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 18px 0;
+    transition: color 0.3s ease;
+}
+
+.mood-social-card:hover .mood-social-card__title {
+    color: var(--mood-lime);
+}
+
+.mood-social-card__divider {
+    height: 1px;
+    background: #1a1a1a;
+    width: 100%;
+    margin-bottom: 22px;
+    transition: background 0.3s ease;
+}
+
+.mood-social-card:hover .mood-social-card__divider {
+    background: rgba(195, 255, 6, 0.2);
+}
+
+.mood-social-card__desc {
+    color: #666666;
+    font-family: var(--_font-default);
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+    transition: color 0.3s ease;
+}
+
+.mood-social-card:hover .mood-social-card__desc {
+    color: #b5b5b5;
+}
+
+@media (max-width: 1024px) {
+    .mood-social-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .mood-social-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .mood-social-card {
+        padding: 35px 25px;
+    }
+}
+
