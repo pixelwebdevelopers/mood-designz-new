@@ -83,6 +83,25 @@
             footerSvg.outerHTML = footerLogoHTML;
         }
         
+        // 4. Initialize Hero Stats CountUp if elements exist
+        const heroStat1 = document.getElementById('hero-stat-counter-1');
+        const heroStat2 = document.getElementById('hero-stat-counter-2');
+        
+        if (heroStat1 && heroStat2 && typeof countUp !== 'undefined') {
+            const optionsPlus = {
+                suffix: '+',
+                enableScrollSpy: false // trigger immediately on load
+            };
+            const statsCounter1 = new countUp.CountUp("hero-stat-counter-1", 10, optionsPlus);
+            const statsCounter2 = new countUp.CountUp("hero-stat-counter-2", 1500, optionsPlus);
+            
+            // Start after a slight delay to allow page loader to complete (usually 2-3s)
+            setTimeout(() => {
+                statsCounter1.start();
+                statsCounter2.start();
+            }, 2500);
+        }
+        
         initEvents();
     };
 

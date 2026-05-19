@@ -452,3 +452,244 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
     }
 }
 
+/* Custom Spacing for Home Marquee Section */
+.mood-marquee-section {
+    padding-top: 0 !important;
+    padding-bottom: 3.5rem !important; /* Reduced from 10.8rem */
+    margin-top: -3.5rem !important;    /* Pulls it slightly closer to the hero section */
+}
+
+@media (max-width: 768px) {
+    .mood-marquee-section {
+        padding-bottom: 2rem !important;
+        margin-top: -1.5rem !important;
+    }
+}
+
+/* Hero Stats Absolute Positioning & Floating styles around the 3D small logo container */
+.mood-hero-objects-container {
+    position: absolute;
+    left: 50% !important;
+    top: 110% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 5 !important;
+}
+
+/* Base Card Style matching the premium look of index-personal-portfolio.html */
+.mood-hero-stat-card {
+    position: relative;
+    padding: 1.5rem 2rem;
+    border-radius: var(--_radius-pt-m);
+    background-color: rgba(10, 10, 10, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5), 0px 0px 20px rgba(195, 255, 6, 0.02);
+    width: max-content;
+    z-index: 6;
+}
+
+/* Mobile Stack layout: stack them neatly under/above the centered logo */
+@media (max-width: 767px) {
+    .mood-hero-objects-container {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100vw !important;
+        height: auto !important;
+        top:120% !important;
+        left: 50% !important;
+    }
+    
+    .mood-hero-objects-container .mxd-move {
+        max-height: 180px;
+        width: auto !important;
+        object-fit: contain;
+        margin-bottom: 1.5rem;
+    }
+    
+    .mood-hero-stat-card {
+        margin-top: 1rem;
+        padding: 1rem 1.5rem;
+        width: 240px;
+        box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.6);
+    }
+    
+    .mood-hero-stat-card.item-01 { order: 1; }
+    .mood-hero-stat-card.item-02 { order: 2; }
+    .mood-hero-stat-card.item-03 { order: 3; }
+}
+
+/* Adjustments for custom stats to keep them clean and large */
+.mood-hero-stat-card .mxd-counter.horizontal {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.mood-hero-stat-card .mxd-counter__number {
+    font-size: clamp(2.5rem, 4vw, 3.8rem) !important;
+    line-height: 1;
+    font-weight: 700;
+    color: var(--mood-lime) !important;
+}
+
+.mood-hero-stat-card .mxd-counter__descr {
+    line-height: 1.3;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.mood-hero-stat-card .mxd-hero__mark.style-custom-stat {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: transparent;
+    padding: 0;
+    border: none;
+}
+
+.mood-hero-stat-card .mxd-hero__mark.style-custom-stat .style-custom-globe {
+    font-size: 24px !important;
+    color: var(--mood-lime) !important;
+    line-height: 1;
+    display: inline-block;
+    animation: mood-globe-spin 12s infinite linear;
+}
+
+@keyframes mood-globe-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 767px) {
+    .mood-hero-stat-card .mxd-hero__mark.style-custom-stat .style-custom-globe {
+        font-size: 18px !important;
+    }
+}
+
+.mood-hero-stat-card .mxd-hero__mark.style-custom-stat .mark-text {
+    font-family: var(--_font-default);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    line-height: 1.4;
+    color: #fff;
+}
+
+/* Desktop absolute floating styles matching index-personal-portfolio.html */
+@media (min-width: 768px) {
+    .mood-hero-objects-container {
+        /* Set explicit positioning container size matching the rotating 3D logo */
+        width: 40rem !important;
+        height: 40rem !important;
+    }
+    
+    .mood-hero-stat-card {
+        position: absolute;
+        margin: 0;
+        background-color: rgba(10, 10, 10, 0.5); /* Semi-transparent with backdrop blur */
+    }
+    
+    /* 10+ Years of experience - Position Top Right */
+    .mood-hero-stat-card.item-01 {
+        top: 2rem;
+        right: -8rem;
+    }
+    
+    /* 1500+ Successful Projects - Position Left/Center */
+    .mood-hero-stat-card.item-02 {
+        left: -12rem;
+        top: 16rem;
+    }
+    
+    /* Global Clients - Position Bottom Right */
+    .mood-hero-stat-card.item-03 {
+        right: -10rem;
+        bottom: 4rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .mood-hero-objects-container {
+        width: 45rem !important;
+        height: 45rem !important;
+    }
+    
+    .mood-hero-stat-card.item-01 {
+        top: 3rem;
+        right: -10rem;
+    }
+    
+    .mood-hero-stat-card.item-02 {
+        left: -15rem;
+        top: 18rem;
+    }
+    
+    .mood-hero-stat-card.item-03 { 
+        right: -6rem;
+        bottom:18rem;
+    }
+}
+
+@media (min-width: 1600px) {
+    .mood-hero-objects-container {
+        width: 60rem !important;
+        height: 60rem !important;
+    }
+    
+    .mood-hero-stat-card.item-01 {
+        top: 5rem;
+        right: -15rem;
+    }
+    
+    .mood-hero-stat-card.item-02 {
+        left: -20rem;
+        top: 24rem;
+    }
+    
+    .mood-hero-stat-card.item-03 {
+        right: -4rem;
+        bottom: 24rem;
+    }
+}
+
+/* Custom Hero 02 Video Block replacement for Scroll Button */
+.mxd-hero-02__video-wrap {
+    position: relative;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(195, 255, 6, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: var(--base-tint);
+    width: 24.6rem;
+    height: 16rem;
+    display: block;
+}
+
+@media only screen and (min-width: 1600px) {
+    .mxd-hero-02__video-wrap {
+        width: 30.8rem;
+        height: 20rem;
+    }
+}
+
+.mxd-hero-02__video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mxd-hero-02__video-btn {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 1rem;
+}
+
+
+

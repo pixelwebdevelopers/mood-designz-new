@@ -8335,16 +8335,16 @@ form textarea:required:valid {
       -ms-transform: translateX(-50%) translateY(-50%);
           transform: translateX(-50%) translateY(-50%);
   z-index: 2;
-  width: 18rem;
+  width: 24rem;
 }
 @media only screen and (min-width: 768px) {
   .mxd-hero-02-marquee__image {
-    width: 30rem;
+    width: 40rem;
   }
 }
 @media only screen and (min-width: 1600px) {
   .mxd-hero-02-marquee__image {
-    width: 42rem;
+    width: 60rem;
   }
 }
 
