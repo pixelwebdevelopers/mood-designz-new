@@ -54,23 +54,15 @@
             document.body.insertAdjacentHTML('beforeend', headerHTML);
         }
         
-        // 2. Replace template's original logo and text
+        // 2. Replace template's original logo and text with responsive theme-aware images
         const templateLogo = document.querySelector('.mxd-logo');
         if (templateLogo) {
-            const logoImg = templateLogo.querySelector('.mxd-logo__image');
-            const logoText = templateLogo.querySelector('.mxd-logo__text');
-            
-            if (logoImg) {
-                // Replace SVG with our image
-                logoImg.outerHTML = `<img src="${logoSrc}" alt="Mood Designz" style="height: 40px; width: auto;">`;
-            }
-            
-            if (logoText) {
-                logoText.innerHTML = 'Mood<br>Designz';
-                logoText.style.fontSize = '14px';
-                logoText.style.fontWeight = '700';
-                logoText.style.textTransform = 'none';
-            }
+            templateLogo.innerHTML = `
+            <div class="mood-header-logo-container-main">
+                <img src="mood-designs-img/Header Black.webp" class="mood-header-logo-img theme-light" alt="Mood Designz">
+                <img src="mood-designs-img/Header White.webp" class="mood-header-logo-img theme-dark" alt="Mood Designz">
+            </div>
+            `;
         }
         
         // 2.5 Remove template's original "Say Hello" button
@@ -79,12 +71,13 @@
             templateSayHello.remove();
         }
         
-        // 3. Replace footer SVG with Mood Designz text logo
+        // 3. Replace footer SVG with Mood Designz picture logo (both light & dark mode)
         const footerSvg = document.querySelector('.mxd-footer__svg-v2');
         if (footerSvg) {
             const footerLogoHTML = `
-            <div class="mood-footer-logo">
-                M<img src="${logoSrc}" alt="o" class="footer-oo-logo">dDesignz
+            <div class="mood-footer-logo-container">
+                <img src="mood-designs-img/Footer Black.webp" class="mood-footer-logo-img theme-light" alt="Mood Designz">
+                <img src="mood-designs-img/Footer Whiter.webp" class="mood-footer-logo-img theme-dark" alt="Mood Designz">
             </div>
             `;
             footerSvg.outerHTML = footerLogoHTML;
