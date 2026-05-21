@@ -129,19 +129,51 @@
         closeMenu.addEventListener('click', closeMenuFunc);
         overlay.addEventListener('click', closeMenuFunc);
         
-        // Handle scroll effect
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
+        // Handle scroll effect — hide on scroll down, show on scroll up
+        let lastScrollY = window.scrollY;
+        let ticking = false;
+        const scrollThreshold = 5; // px of scroll before triggering hide/show
+
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            const delta = currentScrollY - lastScrollY;
+
+            // Apply compact style when scrolled past 50px
+            if (currentScrollY > 50) {
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
             }
 
+            // Hide/show based on scroll direction (only after scrolling past 80px)
+            if (currentScrollY > 80) {
+                if (delta > scrollThreshold) {
+                    // Scrolling DOWN — hide the header
+                    header.classList.add('header-hidden');
+                } else if (delta < -scrollThreshold) {
+                    // Scrolling UP — show the header
+                    header.classList.remove('header-hidden');
+                }
+            } else {
+                // Near top — always show
+                header.classList.remove('header-hidden');
+            }
+
             // Show/Hide WhatsApp Float after 100vh
-            if (window.scrollY > window.innerHeight) {
+            if (currentScrollY > window.innerHeight) {
                 whatsappFloat.classList.add('active');
             } else {
                 whatsappFloat.classList.remove('active');
+            }
+
+            lastScrollY = currentScrollY;
+            ticking = false;
+        };
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(handleScroll);
+                ticking = true;
             }
         });
     };

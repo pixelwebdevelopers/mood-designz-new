@@ -6,8 +6,12 @@
     --mood-border: rgba(255, 255, 255, 0.1);
 }
 
-/* Prevent horizontal page scrolling */
-
+/* Hide pill header on scroll down, show on scroll up */
+#mood-header.header-hidden {
+    transform: translateX(-50%) translateY(-120%);
+    opacity: 0;
+    pointer-events: none;
+}
 
 /* Pill Shaped Header */
 #mood-header {

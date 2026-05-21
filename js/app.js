@@ -71,6 +71,7 @@ const fadeInItems = document.querySelectorAll('.loading__fade');
 
 function startLoader() {
   let counterElement = document.querySelector(".loader__count .count__text");
+  if (!counterElement) return; // Safely exit if loader has been removed
   let currentValue = 0;
   function updateCounter() {
     if (currentValue < 100) {
@@ -91,14 +92,24 @@ imgLoad.on('always', instance => {
 });
 
 function hideLoader() {
-  gsap.to(".loader__count", { duration: 0.8, ease: 'power2.in', y: "100%", delay: 1.8 });
-  gsap.to(".loader__wrapper", { duration: 0.8, ease: 'power4.in', y: "-100%", delay: 2.2 });
+  const loaderCount = document.querySelector(".loader__count");
+  const loaderWrapper = document.querySelector(".loader__wrapper");
+  const loaderEl = document.getElementById("loader");
+
+  if (loaderCount) gsap.to(loaderCount, { duration: 0.8, ease: 'power2.in', y: "100%", delay: 1.8 });
+  if (loaderWrapper) gsap.to(loaderWrapper, { duration: 0.8, ease: 'power4.in', y: "-100%", delay: 2.2 });
+  
   setTimeout(() => {
-    document.getElementById("loader").classList.add("loaded");
+    if (loaderEl) loaderEl.classList.add("loaded");
   }, 3200);
 }
 
 function pageAppearance() {
+  const loaderEl = document.getElementById("loader");
+  // If there's no loader HTML present, trigger animations instantly without the long loader delays
+  const initialDelay = loaderEl ? 0.8 : 0.1;
+  const fadeDelay = loaderEl ? 3.2 : 0.3;
+
   gsap.set(loadingItems, { opacity: 0 })
   gsap.to(loadingItems, { 
     duration: 1.1,
@@ -106,11 +117,11 @@ function pageAppearance() {
     startAt: {y: 120},
     y: 0,
     opacity: 1,
-    delay: 0.8,
+    delay: initialDelay,
     stagger: 0.08
   }, '>-=1.1');
   gsap.set(fadeInItems, { opacity: 0 });
-  gsap.to(fadeInItems, { duration: 0.8, ease: 'none', opacity: 1, delay: 3.2 });
+  gsap.to(fadeInItems, { duration: 0.8, ease: 'none', opacity: 1, delay: fadeDelay });
 }
 // --------------------------------------------- //
 // Loader & Loading Animation End
