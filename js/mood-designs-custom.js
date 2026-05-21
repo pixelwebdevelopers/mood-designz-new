@@ -3,9 +3,9 @@
  * Handles the injection of the pill-shaped header and mobile menu.
  */
 
-(function() {
+(function () {
     const logoSrc = 'mood-designs-img/logo.png';
-    
+
     const headerHTML = `
     <header id="mood-header">
         <div class="logo">
@@ -17,6 +17,7 @@
             <a href="index.html">Home</a>
             <a href="about-us.html">About</a>
             <a href="portfolio.html">Portfolio</a>
+            <a href="#services">Services</a>
             <a href="contact.html">Contact</a>
         </nav>
         <div class="nav-actions">
@@ -53,7 +54,7 @@
         if (!document.getElementById('mood-header')) {
             document.body.insertAdjacentHTML('beforeend', headerHTML);
         }
-        
+
         // 2. Replace template's original logo and text with responsive theme-aware images
         const templateLogo = document.querySelector('.mxd-logo');
         if (templateLogo) {
@@ -64,13 +65,13 @@
             </div>
             `;
         }
-        
+
         // 2.5 Remove template's original "Say Hello" button
         const templateSayHello = document.querySelector('header .btn[aria-label="Say Hello"]');
         if (templateSayHello) {
             templateSayHello.remove();
         }
-        
+
         // 3. Replace footer SVG with Mood Designz picture logo (both light & dark mode)
         const footerSvg = document.querySelector('.mxd-footer__svg-v2');
         if (footerSvg) {
@@ -82,11 +83,11 @@
             `;
             footerSvg.outerHTML = footerLogoHTML;
         }
-        
+
         // 4. Initialize Hero Stats CountUp if elements exist
         const heroStat1 = document.getElementById('hero-stat-counter-1');
         const heroStat2 = document.getElementById('hero-stat-counter-2');
-        
+
         if (heroStat1 && heroStat2 && typeof countUp !== 'undefined') {
             const optionsPlus = {
                 suffix: '+',
@@ -94,14 +95,14 @@
             };
             const statsCounter1 = new countUp.CountUp("hero-stat-counter-1", 10, optionsPlus);
             const statsCounter2 = new countUp.CountUp("hero-stat-counter-2", 1500, optionsPlus);
-            
+
             // Start after a slight delay to allow page loader to complete (usually 2-3s)
             setTimeout(() => {
                 statsCounter1.start();
                 statsCounter2.start();
             }, 2500);
         }
-        
+
         initEvents();
     };
 
@@ -112,23 +113,23 @@
         const menuPanel = document.getElementById('mood-menu-panel');
         const overlay = document.getElementById('mood-overlay');
         const whatsappFloat = document.querySelector('.mood-whatsapp-float');
-        
+
         const openMenu = () => {
             menuPanel.classList.add('active');
             overlay.classList.add('active');
             document.body.classList.add('menu-open');
         };
-        
+
         const closeMenuFunc = () => {
             menuPanel.classList.remove('active');
             overlay.classList.remove('active');
             document.body.classList.remove('menu-open');
         };
-        
+
         menuToggle.addEventListener('click', openMenu);
         closeMenu.addEventListener('click', closeMenuFunc);
         overlay.addEventListener('click', closeMenuFunc);
-        
+
         // Handle scroll effect — hide on scroll down, show on scroll up
         let lastScrollY = window.scrollY;
         let ticking = false;
