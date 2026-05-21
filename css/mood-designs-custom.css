@@ -6,6 +6,9 @@
     --mood-border: rgba(255, 255, 255, 0.1);
 }
 
+/* Prevent horizontal page scrolling */
+
+
 /* Pill Shaped Header */
 #mood-header {
     position: fixed;
@@ -109,12 +112,15 @@
         width: 95%;
         padding: 0 20px;
     }
+
     #mood-header .nav-links {
         display: none;
     }
+
     #mood-header .menu-toggle {
         display: flex;
     }
+
     #mood-header .cta-btn {
         display: none;
     }
@@ -171,7 +177,7 @@
 #mood-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
     z-index: 9999;
     opacity: 0;
@@ -309,9 +315,20 @@ html:not([color-scheme]) .mood-footer-logo-img.theme-dark {
 
 /* Subtle breathing animation instead of heavy pulse */
 @keyframes mood-breathe {
-    0% { transform: scale(1); opacity: 0.8; }
-    50% { transform: scale(1.05); opacity: 1; }
-    100% { transform: scale(1); opacity: 0.8; }
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
 }
 
 /* Main Header Logo Images */
@@ -369,7 +386,8 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
     position: absolute;
     inset: 0;
     border-radius: 20px;
-    padding: 1.5px; /* Border thickness */
+    padding: 1.5px;
+    /* Border thickness */
     background: linear-gradient(135deg, var(--mood-lime), rgba(255, 255, 255, 0.1) 40%, transparent 100%);
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -447,6 +465,7 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
         grid-template-columns: 1fr;
         gap: 16px;
     }
+
     .mood-social-card {
         padding: 35px 25px;
     }
@@ -455,8 +474,10 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
 /* Custom Spacing for Home Marquee Section */
 .mood-marquee-section {
     padding-top: 0 !important;
-    padding-bottom: 3.5rem !important; /* Reduced from 10.8rem */
-    margin-top: -3.5rem !important;    /* Pulls it slightly closer to the hero section */
+    padding-bottom: 3.5rem !important;
+    /* Reduced from 10.8rem */
+    margin-top: -3.5rem !important;
+    /* Pulls it slightly closer to the hero section */
 }
 
 @media (max-width: 768px) {
@@ -497,27 +518,35 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
         align-items: center !important;
         width: 100vw !important;
         height: auto !important;
-        top:120% !important;
+        top: 120% !important;
         left: 50% !important;
     }
-    
+
     .mood-hero-objects-container .mxd-move {
         max-height: 180px;
         width: auto !important;
         object-fit: contain;
         margin-bottom: 1.5rem;
     }
-    
+
     .mood-hero-stat-card {
         margin-top: 1rem;
         padding: 1rem 1.5rem;
         width: 240px;
         box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.6);
     }
-    
-    .mood-hero-stat-card.item-01 { order: 1; }
-    .mood-hero-stat-card.item-02 { order: 2; }
-    .mood-hero-stat-card.item-03 { order: 3; }
+
+    .mood-hero-stat-card.item-01 {
+        order: 1;
+    }
+
+    .mood-hero-stat-card.item-02 {
+        order: 2;
+    }
+
+    .mood-hero-stat-card.item-03 {
+        order: 3;
+    }
 }
 
 /* Adjustments for custom stats to keep them clean and large */
@@ -560,8 +589,13 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
 }
 
 @keyframes mood-globe-spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @media (max-width: 767px) {
@@ -587,25 +621,26 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
         width: 40rem !important;
         height: 40rem !important;
     }
-    
+
     .mood-hero-stat-card {
         position: absolute;
         margin: 0;
-        background-color: rgba(10, 10, 10, 0.5); /* Semi-transparent with backdrop blur */
+        background-color: rgba(10, 10, 10, 0.5);
+        /* Semi-transparent with backdrop blur */
     }
-    
+
     /* 10+ Years of experience - Position Top Right */
     .mood-hero-stat-card.item-01 {
         top: 2rem;
         right: -8rem;
     }
-    
+
     /* 1500+ Successful Projects - Position Left/Center */
     .mood-hero-stat-card.item-02 {
         left: -12rem;
         top: 16rem;
     }
-    
+
     /* Global Clients - Position Bottom Right */
     .mood-hero-stat-card.item-03 {
         right: -10rem;
@@ -618,20 +653,20 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
         width: 45rem !important;
         height: 45rem !important;
     }
-    
+
     .mood-hero-stat-card.item-01 {
         top: 3rem;
         right: -10rem;
     }
-    
+
     .mood-hero-stat-card.item-02 {
         left: -15rem;
         top: 18rem;
     }
-    
-    .mood-hero-stat-card.item-03 { 
+
+    .mood-hero-stat-card.item-03 {
         right: -6rem;
-        bottom:18rem;
+        bottom: 18rem;
     }
 }
 
@@ -640,17 +675,17 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
         width: 60rem !important;
         height: 60rem !important;
     }
-    
+
     .mood-hero-stat-card.item-01 {
         top: 5rem;
         right: -15rem;
     }
-    
+
     .mood-hero-stat-card.item-02 {
         left: -20rem;
         top: 24rem;
     }
-    
+
     .mood-hero-stat-card.item-03 {
         right: -4rem;
         bottom: 24rem;
@@ -691,5 +726,225 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
     padding: 1rem;
 }
 
+/* Custom Redesigned CTA Card (White Background & Overflowing Star) */
+.mxd-promo__inner.mood-promo-white {
+    background-color: #ffffff !important;
+    background-image: none !important;
+    color: #000000 !important;
+    overflow: visible !important;
+    border-radius: 40px !important;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.mxd-promo__inner.mood-promo-white::before {
+    display: none !important;
+    /* Hide any overlay/background gradient layers if any */
+}
+
+/* Ensure the background container or hover background is overridden */
+.mood-promo-white .mxd-promo__bg {
+    display: none !important;
+}
+
+.mood-promo-white .mxd-promo__content {
+    position: relative;
+    z-index: 10;
+    /* Reduced margins to reduce the height of the section card */
+    margin: 3.5rem 0 4rem 0 !important;
+}
+
+@media only screen and (min-width: 768px) {
+    .mood-promo-white .mxd-promo__content {
+        margin: 4.5rem 0 5rem 0 !important;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .mood-promo-white .mxd-promo__content {
+        margin: 5rem 0 5.5rem 0 !important;
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    .mood-promo-white .mxd-promo__content {
+        margin: 5.5rem 0 6rem 0 !important;
+    }
+}
+
+/* Chrome Heart Icon */
+.mood-promo-white .mxd-promo__icon {
+    display: inline-block;
+    padding-right: 0.5rem;
+    vertical-align: middle;
+}
+
+.mood-promo-white .mxd-promo__icon img {
+    height: 3.8rem !important;
+    width: auto !important;
+    vertical-align: middle;
+    display: inline-block;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.1));
+}
+
+@media only screen and (min-width: 768px) {
+    .mood-promo-white .mxd-promo__icon img {
+        height: 6rem !important;
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    .mood-promo-white .mxd-promo__icon img {
+        height: 7rem !important;
+    }
+}
+
+/* Text Caption */
+.mood-promo-white .mxd-promo__caption {
+    color: #000000 !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.04em !important;
+    vertical-align: middle;
+    display: inline;
+}
+
+/* Button override */
+.mood-promo-white .btn-additional {
+    background-color: var(--mood-lime) !important;
+    color: #000000 !important;
+    border: none !important;
+    border-radius: 100px !important;
+    /* Reduced vertical padding to make it super sleek and compact */
+    padding: 0.8rem 3.2rem !important;
+    font-weight: 700 !important;
+    font-size: 1.4rem !important;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 10px 25px rgba(195, 255, 6, 0.15) !important;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1) !important;
+}
+
+.mood-promo-white .btn-additional span.btn-caption {
+    color: #000000 !important;
+    font-weight: 700 !important;
+}
+
+.mood-promo-white .btn-additional i {
+    color: #000000 !important;
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.mood-promo-white .btn-additional:hover {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2) !important;
+    transform: translateY(-3px) scale(1.02) !important;
+}
+
+.mood-promo-white .btn-additional:hover span.btn-caption,
+.mood-promo-white .btn-additional:hover i {
+    color: #ffffff !important;
+}
+
+.mood-promo-white .btn-additional:hover i {
+    transform: translate(3px, -3px);
+}
+
+/* Custom Overflowing Star */
+.mood-promo-star-wrap {
+    position: absolute;
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 5;
+    overflow: visible !important;
+}
 
 
+
+.mood-promo-star-img {
+    width: 100%;
+    height: auto;
+    max-width: none;
+    transform: scale(1.1) rotate(-14deg);
+    transform-origin: center center;
+    filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.12));
+    transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+
+/* Custom Section Override to ensure star doesn't get cropped by parent wrapper overflow settings */
+.mood-promo-section {
+    overflow-x: clip;
+}
+
+/* Responsiveness for Star and Card */
+@media only screen and (max-width: 1400px) {
+    .mood-promo-star-wrap {
+        right: -3rem;
+        width: 30%;
+    }
+
+    .mood-promo-star-img {
+        transform: scale(1.1) rotate(-14deg);
+    }
+}
+
+@media only screen and (max-width: 1199px) {
+
+    /* Allow overflow but stack/adjust nicely */
+    .mxd-promo__inner.mood-promo-white {
+        overflow: hidden !important;
+        /* contain on mobile to prevent horizontal page scrolling */
+    }
+
+    .mood-promo-star-wrap {
+        right: -8%;
+        bottom: -20%;
+        top: auto;
+        transform: none;
+        width: 40%;
+        height: 70%;
+        opacity: 0.9;
+    }
+
+    .mood-promo-star-img {
+        transform: scale(1.1) rotate(15deg);
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .mood-promo-star-wrap {
+        right: -10%;
+        bottom: -15%;
+        width: 30%;
+
+        opacity: 0.8;
+    }
+
+    .mood-promo-star-img {
+        transform: scale(1.1) rotate(15deg);
+    }
+
+    .mood-promo-white .mxd-promo__content {
+        gap: 4rem;
+        margin: 3.5rem 0 4rem 0 !important;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .mood-promo-star-wrap {
+        right: -15%;
+        bottom: -8%;
+        width: 30%;
+        opacity: 0.65;
+    }
+}
