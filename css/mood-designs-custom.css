@@ -638,7 +638,7 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
     /* 1500+ Successful Projects - Position Left/Center */
     .mood-hero-stat-card.item-02 {
         left: -12rem;
-        top: 16rem;
+        top: 2rem;
     }
 
     /* Global Clients - Position Bottom Right */
@@ -661,7 +661,7 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
 
     .mood-hero-stat-card.item-02 {
         left: -15rem;
-        top: 18rem;
+        top: 3rem;
     }
 
     .mood-hero-stat-card.item-03 {
@@ -683,7 +683,7 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
 
     .mood-hero-stat-card.item-02 {
         left: -20rem;
-        top: 24rem;
+        top: 5rem;
     }
 
     .mood-hero-stat-card.item-03 {
