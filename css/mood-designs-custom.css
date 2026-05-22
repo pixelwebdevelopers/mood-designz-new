@@ -1,9 +1,139 @@
 /* Mood Designz Custom Styles */
 
+/* ====================================================== */
+/* Custom Fonts — Guton (headings) & Trevia Groteska (body) */
+/* ====================================================== */
+
+/* Guton — used for titles, headings, header & footer */
+@font-face {
+    font-family: "Guton";
+    src: url("../fonts/Guton/GUTON-REGULAR.OTF") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Guton";
+    src: url("../fonts/Guton/GUTON-MEDIUM.OTF") format("opentype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Guton";
+    src: url("../fonts/Guton/GUTON-SEMIBOLD.OTF") format("opentype");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Guton";
+    src: url("../fonts/Guton/GUTON-BOLD.OTF") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Guton";
+    src: url("../fonts/Guton/GUTON-EXTRABOLD.OTF") format("opentype");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Guton";
+    src: url("../fonts/Guton/GUTON-BLACK.OTF") format("opentype");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Trevia Groteska — used for secondary / body text */
+@font-face {
+    font-family: "Trevia Groteska";
+    src: url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-ExtraLight.woff2") format("woff2"),
+         url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-ExtraLight.woff") format("woff");
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Trevia Groteska";
+    src: url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-Light.woff2") format("woff2"),
+         url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-Light.woff") format("woff");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Trevia Groteska";
+    src: url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-Regular.woff2") format("woff2"),
+         url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-Regular.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Trevia Groteska";
+    src: url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-Regular-Italic.woff2") format("woff2"),
+         url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-Regular-Italic.woff") format("woff");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Trevia Groteska";
+    src: url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-Medium.woff2") format("woff2"),
+         url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-Medium.woff") format("woff");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Trevia Groteska";
+    src: url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-SemiBold.woff2") format("woff2"),
+         url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-SemiBold.woff") format("woff");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Trevia Groteska";
+    src: url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-Bold.woff2") format("woff2"),
+         url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-Bold.woff") format("woff");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Trevia Groteska";
+    src: url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-ExtraBold.woff2") format("woff2"),
+         url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-ExtraBold.woff") format("woff");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Trevia Groteska";
+    src: url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-Heavy.woff2") format("woff2"),
+         url("../fonts/Trevia%20Groteska/Webfonts/TreviaGroteska-Heavy.woff") format("woff");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --mood-lime: #c3ff06;
     --mood-bg-blur: rgba(255, 255, 255, 0.05);
     --mood-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Remap the template's font tokens to the brand fonts.
+   --_font-accent drives all headings/titles/display text (header & footer included).
+   --_font-default drives body / secondary text. */
+:root {
+    --_font-accent: "Guton", sans-serif;
+    --_font-default: "Trevia Groteska", sans-serif;
 }
 
 /* Hide pill header on scroll down, show on scroll up */
