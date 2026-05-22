@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx serve *)",
+      "Bash(dir \"D:\\\\pixel web developers\\\\Clients\\\\MoodDesigns\\\\New-Website\" /b *.html)"
+    ]
+  }
+}

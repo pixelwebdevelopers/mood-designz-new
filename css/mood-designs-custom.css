@@ -475,6 +475,112 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
     }
 }
 
+/* Social Card — Icon & Arrow */
+.mood-social-card__top-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 28px;
+}
+
+.mood-social-card__icon-wrap {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.mood-social-card__icon-wrap svg {
+    width: 24px;
+    height: 24px;
+    fill: rgba(255, 255, 255, 0.3);
+    transition: fill 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    display: block;
+    flex-shrink: 0;
+}
+
+.mood-social-card:hover .mood-social-card__icon-wrap {
+    transform: scale(1.08);
+}
+
+.mood-social-card:hover .mood-social-card__icon-wrap svg {
+    transform: scale(1.08);
+}
+
+.mood-social-card__arrow-wrap {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 13px;
+    flex-shrink: 0;
+    transition: background 0.4s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.4s ease, color 0.4s ease, transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.mood-social-card:hover .mood-social-card__arrow-wrap {
+    background: var(--mood-lime);
+    border-color: var(--mood-lime);
+    color: #000;
+    transform: rotate(45deg);
+}
+
+/* Instagram */
+.mood-social-card--instagram:hover .mood-social-card__icon-wrap {
+    background: rgba(225, 48, 108, 0.1);
+    border-color: rgba(225, 48, 108, 0.28);
+    box-shadow: 0 0 22px rgba(225, 48, 108, 0.14);
+}
+.mood-social-card--instagram:hover .mood-social-card__icon-wrap svg {
+    fill: #E1306C;
+}
+
+/* LinkedIn */
+.mood-social-card--linkedin:hover .mood-social-card__icon-wrap {
+    background: rgba(0, 119, 181, 0.1);
+    border-color: rgba(0, 119, 181, 0.28);
+    box-shadow: 0 0 22px rgba(0, 119, 181, 0.14);
+}
+.mood-social-card--linkedin:hover .mood-social-card__icon-wrap svg {
+    fill: #0A66C2;
+}
+
+/* Behance */
+.mood-social-card--behance:hover .mood-social-card__icon-wrap {
+    background: rgba(23, 105, 255, 0.1);
+    border-color: rgba(23, 105, 255, 0.28);
+    box-shadow: 0 0 22px rgba(23, 105, 255, 0.14);
+}
+.mood-social-card--behance:hover .mood-social-card__icon-wrap svg {
+    fill: #1769FF;
+}
+
+/* Dribbble */
+.mood-social-card--dribbble:hover .mood-social-card__icon-wrap {
+    background: rgba(234, 76, 137, 0.1);
+    border-color: rgba(234, 76, 137, 0.28);
+    box-shadow: 0 0 22px rgba(234, 76, 137, 0.14);
+}
+.mood-social-card--dribbble:hover .mood-social-card__icon-wrap svg {
+    fill: #EA4C89;
+}
+
+/* Footer Logo / Fullwidth Text — true edge-to-edge on all screens */
+.mxd-footer__fullwidth-text {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
 /* Custom Spacing for Home Marquee Section */
 .mood-marquee-section {
     padding-top: 0 !important;
