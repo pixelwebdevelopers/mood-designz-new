@@ -7,7 +7,7 @@
 (function () {
     "use strict";
 
-    const DATA_URL = "data/projects.json";
+    const DATA_URL = "portfolio-data/projects.json";
 
     // --- DOM REFS ---
     const topCategoryEl = document.getElementById("cs-top-category");

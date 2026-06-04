@@ -8,7 +8,7 @@
     "use strict";
 
     const BATCH_SIZE = 6;
-    const DATA_URL = "data/projects.json";
+    const DATA_URL = "portfolio-data/projects.json";
 
     // --- STATE ---
     let allProjects = [];

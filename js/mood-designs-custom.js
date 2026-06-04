@@ -55,33 +55,10 @@
             document.body.insertAdjacentHTML('beforeend', headerHTML);
         }
 
-        // 2. Replace template's original logo and text with responsive theme-aware images
-        const templateLogo = document.querySelector('.mxd-logo');
-        if (templateLogo) {
-            templateLogo.innerHTML = `
-            <div class="mood-header-logo-container-main">
-                <img src="mood-designs-img/Header Black.webp" class="mood-header-logo-img theme-light" alt="Mood Designz">
-                <img src="mood-designs-img/Header White.webp" class="mood-header-logo-img theme-dark" alt="Mood Designz">
-            </div>
-            `;
-        }
-
-        // 2.5 Remove template's original "Say Hello" button
+        // 2. Remove template's original "Say Hello" button
         const templateSayHello = document.querySelector('header .btn[aria-label="Say Hello"]');
         if (templateSayHello) {
             templateSayHello.remove();
-        }
-
-        // 3. Replace footer SVG with Mood Designz picture logo (both light & dark mode)
-        const footerSvg = document.querySelector('.mxd-footer__svg-v2');
-        if (footerSvg) {
-            const footerLogoHTML = `
-            <div class="mood-footer-logo-container">
-                <img src="mood-designs-img/Footer Black.webp" class="mood-footer-logo-img theme-light" alt="Mood Designz">
-                <img src="mood-designs-img/Footer Whiter.webp" class="mood-footer-logo-img theme-dark" alt="Mood Designz">
-            </div>
-            `;
-            footerSvg.outerHTML = footerLogoHTML;
         }
 
         // 4. Initialize Hero Stats CountUp if elements exist
