@@ -1188,3 +1188,10 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
         opacity: 0.65;
     }
 }
+
+/* Fix for marquee star SVG icons display on mobile / small screens */
+.marquee__image svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
