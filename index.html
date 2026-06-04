@@ -48,6 +48,151 @@
   <!-- Custom Browser Color End -->
 
   <link rel="stylesheet" type="text/css" href="css/mood-designs-custom.css">
+
+  <!-- Case Studies — Horizontal Scroll Hijack styles -->
+  <style>
+    /* The JS always injects a fresh container (.mxd-cs-pin > .mxd-cs-track)
+       and moves the title + cards into it. The original Bootstrap row +
+       bottom CTA are hidden permanently. ONE DOM, TWO CSS MODES below:
+         - desktop: pinned 100vh, GSAP translates the track
+         - mobile : auto-height, track itself has overflow-x: auto */
+
+    .mxd-cs-injected > .container-fluid > .mxd-projects-masonry__gallery,
+    .mxd-cs-injected > .container-fluid > .mxd-projects-masonry__btngroup {
+      display: none !important;
+    }
+
+    .mxd-cs-pin {
+      position: relative;
+      width: 100%;
+      max-width: 100vw;
+      overflow: hidden;
+    }
+    .mxd-cs-pin .mxd-cs-track {
+      display: flex !important;
+      flex-flow: row nowrap !important;
+      align-items: center !important;
+      margin: 0 !important;
+      will-change: transform;
+    }
+    .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell {
+      position: static !important;
+      left: auto !important;
+      top: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      float: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      flex: 0 0 auto !important;
+      opacity: 1 !important;
+      transform: none !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+    }
+
+    /* === Desktop (>= 768px) — pinned, GSAP-translated horizontal scroll === */
+    @media (min-width: 768px) {
+      .mxd-cs-pin {
+        height: 100vh;
+      }
+      .mxd-cs-pin .mxd-cs-track {
+        height: 100vh !important;
+        width: -webkit-max-content !important;
+        width: max-content !important;
+        max-width: none !important;
+        padding: 0 5vw !important;
+        gap: 3rem !important;
+        overflow: visible !important;
+      }
+      .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell {
+        width: 38vw !important;
+        max-width: 520px !important;
+        height: auto !important;
+        max-height: 80vh !important;
+      }
+      .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell.mxd-cs-cell--title {
+        width: 32vw !important;
+        min-width: 320px !important;
+        max-width: 460px !important;
+      }
+      .mxd-cs-pin .mxd-cs-track .mxd-project-item__media,
+      .mxd-cs-pin .mxd-cs-track .mxd-project-item__media.masonry-media {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 60vh !important;
+        max-height: 60vh !important;
+        min-height: 0 !important;
+      }
+      .mxd-cs-pin .mxd-cs-track .mxd-project-item__preview,
+      .mxd-cs-pin .mxd-cs-track .mxd-project-item__preview.masonry-preview {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        transform: none !important;
+        background-position: center center !important;
+        background-size: cover !important;
+        inset: 0 !important;
+      }
+    }
+
+    /* === Mobile (< 768px) — native horizontal scroll, no pinning === */
+    @media (max-width: 767.98px) {
+      .mxd-cs-pin {
+        height: auto;
+        padding: 1.5rem 0;
+      }
+      .mxd-cs-pin .mxd-cs-track {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        padding: 0 1rem !important;
+        gap: 1rem !important;
+        /* Cancel any leftover GSAP transform if user resized from desktop. */
+        transform: none !important;
+      }
+      .mxd-cs-pin .mxd-cs-track::-webkit-scrollbar {
+        display: none;
+      }
+      .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell {
+        width: 85vw !important;
+        max-width: 85vw !important;
+        height: auto !important;
+        scroll-snap-align: start;
+      }
+      .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell.mxd-cs-cell--title {
+        width: 88vw !important;
+        max-width: 88vw !important;
+      }
+      .mxd-cs-pin .mxd-cs-track .mxd-project-item__media,
+      .mxd-cs-pin .mxd-cs-track .mxd-project-item__media.masonry-media {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 60vh !important;
+        max-height: 60vh !important;
+        min-height: 0 !important;
+        margin-bottom: 1rem !important;
+      }
+      .mxd-cs-pin .mxd-cs-track .mxd-project-item__preview,
+      .mxd-cs-pin .mxd-cs-track .mxd-project-item__preview.masonry-preview {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        transform: none !important;
+        background-position: center center !important;
+        background-size: cover !important;
+        inset: 0 !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -1507,9 +1652,209 @@
 
   <!-- Load Scripts Start -->
   <script src="js/libs.min.js"></script>
+
+  <!-- Case Studies — Pre-init: strip library hooks BEFORE app.js initializes
+       Masonry, Ukiyo (parallax), and the per-item GSAP fade-in. Stops them
+       from writing inline width/height/transform/opacity to the cards. -->
+  <script>
+    (function () {
+      var wrap = document.querySelector('.mxd-projects-masonry');
+      if (!wrap) return;
+      var row = wrap.querySelector('.mxd-projects-masonry__gallery');
+      if (row) row.removeAttribute('data-masonry');
+      // Strip Ukiyo + anim hooks on every descendant in the section.
+      var stripClasses = ['parallax-img', 'parallax-img-small', 'anim-uni-in-up'];
+      var all = wrap.querySelectorAll('*');
+      for (var i = 0; i < all.length; i++) {
+        var el = all[i];
+        for (var j = 0; j < stripClasses.length; j++) {
+          if (el.classList.contains(stripClasses[j])) el.classList.remove(stripClasses[j]);
+        }
+      }
+    })();
+  </script>
+
   <script src="js/app.js"></script>
 
   <script src="js/mood-designs-custom.js"></script>
+
+  <!--
+    Case Studies — Horizontal Scroll Hijack
+    ---------------------------------------------------
+    Tunable knobs (edit the constants below):
+      SCROLL_DISTANCE   Multiplier on the track's horizontal travel that
+                        decides how much vertical scroll the pinned
+                        section consumes. 1 = scroll distance equals
+                        track width. Increase for a slower/lazier feel
+                        (e.g. 1.2-1.5), decrease for a snappier one.
+      SCRUB_SMOOTH      ScrollTrigger scrub smoothing in seconds.
+                        0 = 1:1 with scroll, higher = lazier follow.
+                        Try 0.5-1.5.
+      MOBILE_BREAKPOINT Below this viewport width the hijack is disabled
+                        and the gallery falls back to native horizontal
+                        overflow scrolling (see CSS .mxd-cs-hscroll-mobile).
+  -->
+  <script>
+    (function () {
+      var SCROLL_DISTANCE = 1;
+      var SCRUB_SMOOTH = 0.8;
+      var MOBILE_BREAKPOINT = 768;
+
+      // ---- helpers ------------------------------------------------------
+      function destroyMasonry(row) {
+        try {
+          if (window.Masonry && window.Masonry.data) {
+            var inst = window.Masonry.data(row);
+            if (inst && typeof inst.destroy === 'function') inst.destroy();
+          }
+        } catch (e) {}
+        try {
+          if (window.jQuery && window.jQuery(row).data('masonry')) {
+            window.jQuery(row).masonry('destroy');
+          }
+        } catch (e) {}
+        row.removeAttribute('data-masonry');
+      }
+
+      function nukeInline(el) {
+        if (!el) return;
+        el.removeAttribute('style');
+        var inner = el.querySelectorAll('.mxd-project-item__media, .mxd-project-item__preview, .masonry-media, .masonry-preview, .anim-uni-in-up');
+        for (var i = 0; i < inner.length; i++) inner[i].removeAttribute('style');
+      }
+
+      // Belt-and-braces: if anything writes inline width/height/transform
+      // on a card's media/preview, wipe it on the next tick. Ignores the
+      // track itself (GSAP needs to set transform on it on desktop).
+      function guardInlineStyles(rootEl) {
+        if (typeof MutationObserver === 'undefined') return null;
+        var pending = false;
+        var obs = new MutationObserver(function (records) {
+          if (pending) return;
+          // Skip records targeting the track root (GSAP writes its transform there).
+          var hasRelevant = false;
+          for (var k = 0; k < records.length; k++) {
+            if (records[k].target !== rootEl) { hasRelevant = true; break; }
+          }
+          if (!hasRelevant) return;
+          pending = true;
+          requestAnimationFrame(function () {
+            pending = false;
+            var targets = rootEl.querySelectorAll('.mxd-project-item__media, .mxd-project-item__preview');
+            for (var i = 0; i < targets.length; i++) {
+              var t = targets[i];
+              var s = t.getAttribute('style') || '';
+              if (/(^|;)\s*(width|height|max-width|max-height|transform|min-width|min-height|inset|top|left|right|bottom)\s*:/i.test(s)) {
+                t.removeAttribute('style');
+              }
+            }
+          });
+        });
+        obs.observe(rootEl, {
+          attributes: true,
+          attributeFilter: ['style'],
+          subtree: true
+        });
+        return obs;
+      }
+
+      // ---- inject the shared pin + track (runs once, regardless of viewport) ----
+      function injectTrack(masonryWrap, origRow, titleEl, itemEls) {
+        var pinWrap = document.createElement('div');
+        pinWrap.className = 'mxd-cs-pin';
+
+        var track = document.createElement('div');
+        track.className = 'mxd-cs-track';
+
+        titleEl.classList.add('mxd-cs-cell', 'mxd-cs-cell--title');
+        nukeInline(titleEl);
+        track.appendChild(titleEl);
+
+        Array.prototype.forEach.call(itemEls, function (el) {
+          el.classList.add('mxd-cs-cell');
+          nukeInline(el);
+          track.appendChild(el);
+        });
+
+        pinWrap.appendChild(track);
+        masonryWrap.classList.add('mxd-cs-injected');
+        var host = origRow.parentNode || masonryWrap;
+        host.appendChild(pinWrap);
+
+        guardInlineStyles(track);
+        return { pinWrap: pinWrap, track: track };
+      }
+
+      function init() {
+        var masonryWrap = document.querySelector('.mxd-projects-masonry');
+        var origRow = masonryWrap && masonryWrap.querySelector('.mxd-projects-masonry__gallery');
+        if (!masonryWrap || !origRow) return;
+
+        var titleEl = origRow.querySelector('.mxd-projects-masonry__title');
+        var itemEls = origRow.querySelectorAll('.mxd-projects-masonry__item');
+        if (!titleEl || !itemEls.length) return;
+
+        destroyMasonry(origRow);
+        var built = injectTrack(masonryWrap, origRow, titleEl, itemEls);
+        var pinWrap = built.pinWrap;
+        var track = built.track;
+
+        // Our injection changes the document height (masonry destroyed,
+        // items moved, original row hidden, new track added). Every
+        // ScrollTrigger below us — e.g. the footer's animate-card-3 batches
+        // and the stacking-cards pin — has STALE start/end positions until
+        // it refreshes. On desktop the matchMedia callback below refreshes;
+        // on mobile we must do it here, otherwise the footer animations
+        // never fire (their triggers stay beyond the page's max scroll).
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+          gsap.registerPlugin(ScrollTrigger);
+          requestAnimationFrame(function () { ScrollTrigger.refresh(); });
+          setTimeout(function () { ScrollTrigger.refresh(); }, 600);
+        } else {
+          return;
+        }
+
+        var mm = gsap.matchMedia();
+        mm.add('(min-width: ' + MOBILE_BREAKPOINT + 'px)', function () {
+          var getDistance = function () {
+            return Math.max(0, track.scrollWidth - window.innerWidth);
+          };
+
+          var tween = gsap.to(track, {
+            x: function () { return -getDistance(); },
+            ease: 'none'
+          });
+
+          var st = ScrollTrigger.create({
+            animation: tween,
+            trigger: pinWrap,
+            start: 'top top',
+            end: function () { return '+=' + (getDistance() * SCROLL_DISTANCE); },
+            pin: pinWrap,
+            pinType: 'transform',
+            scrub: SCRUB_SMOOTH,
+            anticipatePin: 1,
+            invalidateOnRefresh: true
+          });
+
+          requestAnimationFrame(function () { ScrollTrigger.refresh(); });
+          setTimeout(function () { ScrollTrigger.refresh(); }, 600);
+
+          return function () {
+            st.kill();
+            tween.kill();
+            gsap.set(track, { clearProps: 'transform,x' });
+          };
+        });
+      }
+
+      if (document.readyState === 'complete') {
+        setTimeout(init, 400);
+      } else {
+        window.addEventListener('load', function () { setTimeout(init, 400); });
+      }
+    })();
+  </script>
 </body>
 
 </html>
