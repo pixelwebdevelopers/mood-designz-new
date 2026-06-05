@@ -629,17 +629,25 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
 .mood-social-card__icon-wrap svg {
     width: 24px;
     height: 24px;
-    fill: rgba(255, 255, 255, 0.3);
+    fill: #ffffff;
     transition: fill 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     display: block;
     flex-shrink: 0;
+}
+
+.mood-social-card__icon-wrap i {
+    font-size: 24px;
+    color: #ffffff;
+    line-height: 1;
+    transition: color 0.4s ease, transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .mood-social-card:hover .mood-social-card__icon-wrap {
     transform: scale(1.08);
 }
 
-.mood-social-card:hover .mood-social-card__icon-wrap svg {
+.mood-social-card:hover .mood-social-card__icon-wrap svg,
+.mood-social-card:hover .mood-social-card__icon-wrap i {
     transform: scale(1.08);
 }
 
@@ -665,44 +673,17 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
     transform: rotate(45deg);
 }
 
-/* Instagram */
-.mood-social-card--instagram:hover .mood-social-card__icon-wrap {
-    background: rgba(225, 48, 108, 0.1);
-    border-color: rgba(225, 48, 108, 0.28);
-    box-shadow: 0 0 22px rgba(225, 48, 108, 0.14);
+/* All social cards — unified mood-lime hover (matches the site's accent) */
+.mood-social-card:hover .mood-social-card__icon-wrap {
+    background: rgba(195, 255, 6, 0.08);
+    border-color: rgba(195, 255, 6, 0.28);
+    box-shadow: 0 0 22px rgba(195, 255, 6, 0.14);
 }
-.mood-social-card--instagram:hover .mood-social-card__icon-wrap svg {
-    fill: #E1306C;
+.mood-social-card:hover .mood-social-card__icon-wrap svg {
+    fill: var(--mood-lime);
 }
-
-/* LinkedIn */
-.mood-social-card--linkedin:hover .mood-social-card__icon-wrap {
-    background: rgba(0, 119, 181, 0.1);
-    border-color: rgba(0, 119, 181, 0.28);
-    box-shadow: 0 0 22px rgba(0, 119, 181, 0.14);
-}
-.mood-social-card--linkedin:hover .mood-social-card__icon-wrap svg {
-    fill: #0A66C2;
-}
-
-/* Behance */
-.mood-social-card--behance:hover .mood-social-card__icon-wrap {
-    background: rgba(23, 105, 255, 0.1);
-    border-color: rgba(23, 105, 255, 0.28);
-    box-shadow: 0 0 22px rgba(23, 105, 255, 0.14);
-}
-.mood-social-card--behance:hover .mood-social-card__icon-wrap svg {
-    fill: #1769FF;
-}
-
-/* Dribbble */
-.mood-social-card--dribbble:hover .mood-social-card__icon-wrap {
-    background: rgba(234, 76, 137, 0.1);
-    border-color: rgba(234, 76, 137, 0.28);
-    box-shadow: 0 0 22px rgba(234, 76, 137, 0.14);
-}
-.mood-social-card--dribbble:hover .mood-social-card__icon-wrap svg {
-    fill: #EA4C89;
+.mood-social-card:hover .mood-social-card__icon-wrap i {
+    color: var(--mood-lime);
 }
 
 /* Footer Logo / Fullwidth Text — true edge-to-edge on all screens */
@@ -805,7 +786,7 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
 
 .mood-hero-stat-card .mxd-counter__descr {
     line-height: 1.3;
-    font-size: 11px;
+    font-size: 14px;
 
     letter-spacing: 1px;
     color: rgba(255, 255, 255, 0.7);
@@ -1194,4 +1175,371 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
     width: 100%;
     height: 100%;
     display: block;
+}
+
+/* ====================================================== */
+/* Case Studies — image slots + grow-to-center effect      */
+/* ====================================================== */
+
+/* Map the six new case-study images to the existing slots. */
+.preview-image-1 { background-image: url("../page-images/home/casestudies/1.jpg"); }
+.preview-image-2 { background-image: url("../page-images/home/casestudies/2.jpg"); }
+.preview-image-3 { background-image: url("../page-images/home/casestudies/3.jpg"); }
+.preview-image-4 { background-image: url("../page-images/home/casestudies/4.jpg"); }
+.preview-image-5 { background-image: url("../page-images/home/casestudies/5.jpg"); }
+.preview-image-6 { background-image: url("../page-images/home/casestudies/6.jpg"); }
+
+/* Make the horizontal-scroll cards feel like a "hero" card     */
+/* (big centered card, neighbors peek in) — desktop only.       */
+@media (min-width: 768px) {
+  .mxd-cs-pin .mxd-cs-track {
+    /* extra breathing room so the centered card can grow without
+       its neighbors crowding it */
+    gap: 5rem !important;
+    padding: 0 12vw !important;
+  }
+  .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell {
+    width: 58vw !important;
+    max-width: 1100px !important;
+    max-height: 96vh !important;
+    /* the JS sets transform with !important per-cell; this is the
+       resting state for cells that haven't been measured yet */
+    transform: scale(0.58) !important;
+    transform-origin: center center !important;
+    transition: transform 0.15s linear;
+  }
+  .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell.mxd-cs-cell--title {
+    /* keep the title cell at its natural size */
+    width: 32vw !important;
+    min-width: 320px !important;
+    max-width: 460px !important;
+    transform: none !important;
+  }
+  .mxd-cs-pin .mxd-cs-track .mxd-project-item__media,
+  .mxd-cs-pin .mxd-cs-track .mxd-project-item__media.masonry-media {
+    height: 78vh !important;
+    max-height: 78vh !important;
+  }
+}
+
+/* Mobile: centered card grows a bit, neighbors stay smaller.    */
+@media (max-width: 767.98px) {
+  .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell {
+    transform: scale(0.85);
+    transform-origin: center center;
+    transition: transform 0.18s linear;
+  }
+}
+
+/* Inline headline icon used on the "Our team" / "Our services" blocks. */
+.headline-img-05::before {
+    background-image: url("../page-images/home/hero/logo-small.webp") !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    background-color: transparent !important;
+}
+
+/* CTA "Contact Us" button in the "Let's talk about your project" promo:
+   the template's .btn-large gives a tall pill with tiny text. Trim height,
+   add real horizontal padding, and bump the caption size. The .btn-anim
+   mechanism stacks two .btn-anim__block siblings inside .btn-caption and
+   relies on the caption being exactly one block tall (overflow: hidden) to
+   keep the hover-revealed copy hidden — so caption height must match the
+   line-height. We use em units so it stays correct if font-size changes. */
+.mxd-promo__controls .btn.btn-large {
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 18px 32px !important;
+    font-size: 18px !important;
+    line-height: 1.5 !important;
+}
+.mxd-promo__controls .btn.btn-large .btn-caption {
+    font-size: 18px !important;
+    line-height: 1.5em !important;
+    height: 1.5em !important;
+    font-weight: 600;
+}
+.mxd-promo__controls .btn.btn-large .btn-anim__block {
+    line-height: 1.5em !important;
+}
+.mxd-promo__controls .btn.btn-large i {
+    font-size: 20px !important;
+}
+
+/* =========================================================== */
+/* Case Studies — Portfolio End Card                           */
+/* Last cell in the horizontal scroll. Grows to near-full       */
+/* viewport when centered, links to the portfolio page, and     */
+/* has hover-driven 3D tilt + a custom cursor follower.         */
+/* =========================================================== */
+
+@media (min-width: 768px) {
+  .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell.mxd-cs-end-card-wrap {
+    width: 92vw !important;
+    max-width: 1700px !important;
+    height: auto !important;
+    max-height: 96vh !important;
+  }
+  .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell.mxd-cs-end-card-wrap .mxd-project-item__media,
+  .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell.mxd-cs-end-card-wrap .mxd-project-item__media.masonry-media {
+    height: auto !important;
+    max-height: none !important;
+  }
+}
+
+.mxd-cs-end-card-wrap {
+  perspective: 1400px;
+}
+
+.mxd-cs-end-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 86vh;
+  max-height: 900px;
+  text-decoration: none !important;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(195, 255, 6, 0.18), transparent 38%),
+    radial-gradient(circle at 84% 88%, rgba(195, 255, 6, 0.12), transparent 42%),
+    linear-gradient(135deg, #0e0f0c 0%, #15170f 55%, #0a0b08 100%);
+  border-radius: 32px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(195, 255, 6, 0.16);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+  transform-style: preserve-3d;
+  transition: box-shadow 0.5s ease;
+  cursor: pointer;
+}
+
+.mxd-cs-end-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(195, 255, 6, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(195, 255, 6, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(circle at center, #000 30%, transparent 75%);
+          mask-image: radial-gradient(circle at center, #000 30%, transparent 75%);
+  z-index: 0;
+}
+
+.mxd-cs-end-card:hover {
+  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.6), 0 0 60px rgba(195, 255, 6, 0.12) inset;
+}
+
+.mxd-cs-end-card__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6vh 6vw;
+  text-align: center;
+  transform-style: preserve-3d;
+}
+
+.mxd-cs-end-card__pills {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.mxd-cs-end-card__pill {
+  /* CSS variables that JS writes per-pill each frame to drive
+     a smooth mouse-parallax + idle float. The transform itself
+     combines our offset (--px, --py), per-pill rotation (--rot)
+     and depth (--z) so the rotate/z baked-in here can't be
+     stomped on by inline JS transforms. */
+  --rot: 0deg;
+  --z:   30px;
+  --ax:  1;     /* horizontal parallax multiplier */
+  --ay:  1;     /* vertical parallax multiplier */
+  --px:  0px;
+  --py:  0px;
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #0d0d0d;
+  font-family: var(--_font-default);
+  font-weight: 500;
+  font-size: clamp(11px, 0.95vw, 16px);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transform: translate3d(var(--px), var(--py), var(--z)) rotate(var(--rot));
+  will-change: transform;
+}
+.mxd-cs-end-card__pill[data-i="0"] { top: 22%; left: 18%; --rot: -9deg;  --z: 40px; --ax: 1.4; --ay: 0.8; }
+.mxd-cs-end-card__pill[data-i="1"] { top: 28%; right: 14%; --rot: 11deg;  --z: 60px; --ax: 1.8; --ay: 1.0; }
+.mxd-cs-end-card__pill[data-i="2"] { top: 62%; left: 12%; --rot: -12deg; --z: 50px; --ax: 1.5; --ay: 1.2; }
+.mxd-cs-end-card__pill[data-i="3"] { top: 68%; left: 32%; --rot:  4deg;  --z: 30px; --ax: 0.9; --ay: 0.7; }
+.mxd-cs-end-card__pill[data-i="4"] { top: 64%; right: 18%; --rot:  7deg;  --z: 70px; --ax: 2.0; --ay: 1.3; }
+.mxd-cs-end-card__pill[data-i="5"] { top: 24%; left: 44%; --rot: -3deg;  --z: 30px; --ax: 0.8; --ay: 0.6; }
+
+.mxd-cs-end-card__title-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  z-index: 3;
+  transform: translateZ(80px);
+}
+.mxd-cs-end-card__title {
+  font-family: var(--_font-accent, var(--_font-default));
+  color: #f5f7ee;
+  font-weight: 800;
+  font-size: clamp(60px, 12vw, 220px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin: 0;
+  background: linear-gradient(180deg, #ffffff 0%, #d4ff3a 50%, #c3ff06 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.mxd-cs-end-card__spark {
+  color: var(--mood-lime, #c3ff06);
+  font-size: clamp(24px, 3vw, 48px);
+  filter: drop-shadow(0 0 12px rgba(195, 255, 6, 0.6));
+  animation: cs-spark-twinkle 2.4s ease-in-out infinite;
+}
+.mxd-cs-end-card__spark--right { animation-delay: 1.2s; }
+@keyframes cs-spark-twinkle {
+  0%, 100% { transform: scale(1) rotate(0deg);  opacity: 0.9; }
+  50%      { transform: scale(1.25) rotate(45deg); opacity: 1; }
+}
+
+.mxd-cs-end-card__desc {
+  position: relative;
+  z-index: 3;
+  margin: clamp(20px, 3vh, 40px) 0 clamp(28px, 4vh, 56px);
+  color: rgba(245, 247, 238, 0.72);
+  font-size: clamp(14px, 1.3vw, 20px);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  transform: translateZ(50px);
+}
+
+.mxd-cs-end-card__cta {
+  position: relative;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 24px 18px 32px;
+  border-radius: 999px;
+  background: var(--mood-lime, #c3ff06);
+  color: #0a0a0a;
+  font-family: var(--_font-default);
+  font-weight: 700;
+  font-size: clamp(15px, 1.2vw, 19px);
+  letter-spacing: 0.02em;
+  transform: translateZ(90px);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+  box-shadow: 0 14px 30px rgba(195, 255, 6, 0.28);
+  will-change: transform;
+}
+.mxd-cs-end-card__cta-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: #0a0a0a;
+  color: var(--mood-lime, #c3ff06);
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.mxd-cs-end-card:hover .mxd-cs-end-card__cta {
+  box-shadow: 0 18px 40px rgba(195, 255, 6, 0.45);
+}
+.mxd-cs-end-card:hover .mxd-cs-end-card__cta-arrow {
+  transform: rotate(45deg);
+}
+
+/* Small accent dot that orbits the system cursor — keeps the
+   system pointer visible so the user never loses their cursor. */
+.mxd-cs-end-card__cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--mood-lime, #c3ff06);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(-9999px, -9999px, 0);
+  transition: opacity 0.25s ease;
+  z-index: 10;
+  box-shadow: 0 0 0 6px rgba(195, 255, 6, 0.18), 0 0 18px rgba(195, 255, 6, 0.55);
+  will-change: transform, opacity;
+}
+.mxd-cs-end-card__cursor i,
+.mxd-cs-end-card__cursor-label { display: none; }
+.mxd-cs-end-card.is-hover .mxd-cs-end-card__cursor { opacity: 1; }
+
+/* Tablet — under 1200px the giant card / huge type starts feeling
+   cramped. Bring everything in a notch. */
+@media (max-width: 1199.98px) and (min-width: 768px) {
+  .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell.mxd-cs-end-card-wrap {
+    width: 94vw !important;
+    max-width: 1100px !important;
+  }
+  .mxd-cs-end-card { height: 78vh; }
+  .mxd-cs-end-card__inner { padding: 5vh 5vw; }
+  .mxd-cs-end-card__title { font-size: clamp(72px, 14vw, 160px); }
+  .mxd-cs-end-card__desc  { font-size: clamp(14px, 1.6vw, 18px); }
+  .mxd-cs-end-card__pill[data-i="0"] { top: 18%; left: 10%; }
+  .mxd-cs-end-card__pill[data-i="1"] { top: 22%; right: 8%; }
+  .mxd-cs-end-card__pill[data-i="2"] { top: 68%; left: 8%; }
+  .mxd-cs-end-card__pill[data-i="3"] { top: 74%; left: 36%; }
+  .mxd-cs-end-card__pill[data-i="4"] { top: 70%; right: 10%; }
+  .mxd-cs-end-card__pill[data-i="5"] { top: 22%; left: 44%; }
+}
+
+/* Mobile — single-column layout, no 3D tilt, no follower dot.   */
+@media (max-width: 767.98px) {
+  .mxd-cs-end-card {
+    height: 78vh;
+    max-height: 720px;
+    border-radius: 22px;
+    cursor: pointer;
+  }
+  .mxd-cs-end-card__inner { padding: 4vh 6vw; }
+  .mxd-cs-end-card__cursor { display: none; }
+  .mxd-cs-end-card__title { font-size: clamp(54px, 18vw, 110px); }
+  .mxd-cs-end-card__title-wrap { gap: 0.6rem; }
+  .mxd-cs-end-card__spark { font-size: 22px; }
+  .mxd-cs-end-card__desc { font-size: 14px; margin: 18px 0 26px; }
+  .mxd-cs-end-card__cta { padding: 14px 18px 14px 24px; font-size: 14px; gap: 12px; }
+  .mxd-cs-end-card__cta-arrow { width: 32px; height: 32px; }
+  .mxd-cs-end-card__pill { font-size: 11px; padding: 7px 13px; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); }
+  .mxd-cs-end-card__pill[data-i="0"] { top: 14%; left: 6%; }
+  .mxd-cs-end-card__pill[data-i="1"] { top: 18%; right: 4%; }
+  .mxd-cs-end-card__pill[data-i="2"] { top: 70%; left: 4%; }
+  .mxd-cs-end-card__pill[data-i="3"] { top: 78%; left: 36%; }
+  .mxd-cs-end-card__pill[data-i="4"] { top: 72%; right: 4%; }
+  .mxd-cs-end-card__pill[data-i="5"] { top: 22%; left: 36%; }
+}
+
+/* Very narrow phones — drop a couple of pills so the headline reads. */
+@media (max-width: 420px) {
+  .mxd-cs-end-card__pill[data-i="3"],
+  .mxd-cs-end-card__pill[data-i="5"] { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mxd-cs-end-card__pill,
+  .mxd-cs-end-card__spark { animation: none; }
 }

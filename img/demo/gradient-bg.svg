@@ -7,8 +7,8 @@
       }
     </style>
     <radialGradient id="radial-gradient" cx="600" cy="600" fx="600" fy="600" r="600" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#9f8be7" stop-opacity=".6"/>
-      <stop offset="1" stop-color="#9f8be7" stop-opacity="0"/>
+      <stop offset="0" stop-color="#c3ff06" stop-opacity=".6"/>
+      <stop offset="1" stop-color="#c3ff06" stop-opacity="0"/>
     </radialGradient>
   </defs>
   <!-- Generator: Adobe Illustrator 28.7.1, SVG Export Plug-In . SVG Version: 1.2.0 Build 142)  -->

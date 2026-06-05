@@ -38,7 +38,7 @@
   --base-shade--light: #e0dddb;
   --base-opp--light: #161616;
   --base-opp-tint--light: #1C1C1C;
-  --accent--light: #9F8BE7;
+  --accent--light: #c3ff06;
   --accent-rgb--light: 159, 139, 231;
   --additional--light: #c3ff06;
   --additional-rgb--light: 221, 241, 96;
@@ -78,7 +78,7 @@
   --base-opp-tint--dark: #ffffff;
   --accent--dark: #c3ff06;
   --accent-rgb--dark: 221, 241, 96;
-  --additional--dark: #9F8BE7;
+  --additional--dark: #c3ff06;
   --additional-rgb--dark: 159, 139, 231;
   --neutral-transparent--dark: rgba(0, 0, 0, 0.3);
   --st-bright--dark: #FFFFFF;
