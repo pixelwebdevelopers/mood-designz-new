@@ -1,12 +1,12 @@
 [
   {
-    "id": "the-atelier",
-    "name": "The Atelier",
+    "id": "Kora",
+    "name": "The Kora",
     "category": "identity",
     "meta": "Studio // Identity",
     "description": "The Atelier project represents a bold new chapter in contemporary identity design. Crafted for a prestigious creative studio, this body of work channels the raw energy of brutalist architecture into a refined visual language. Every typographic detail, every color choice, was meticulously calibrated to evoke a sense of sovereign authority and creative dominance. The result is a brand identity system that is not just a logo — it is a statement. A statement that commands attention, inspires trust, and refuses to be ignored.",
-    "coverImage": "portfolio-data/images/s1.jpg",
-    "caseStudyImage": "portfolio-data/images/project_vision.png"
+    "coverImage": "portfolio-data/images/Kora-Cover.jpg",
+    "caseStudyImage": "portfolio-data/images/Kora.jpg"
   },
   {
     "id": "studio-mono",
