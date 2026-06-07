@@ -100,10 +100,29 @@
             heroImgEl.style.backgroundImage = `url('${project.coverImage}')`;
         }
 
-        // --- Main Gallery Image ---
+        // --- Main Gallery Image(s) ---
+        // Collect every `caseStudyImage`, `caseStudyImage1`, `caseStudyImage2`,
+        // ... key on the project, in numeric order. Render one full-width img
+        // per source, stacked flush with no gap and no rounded corners.
         if (galleryMainEl) {
-            galleryMainEl.src = project.caseStudyImage;
-            galleryMainEl.alt = `${project.name} — Study Showcase`;
+            const imageKeys = Object.keys(project)
+                .filter((k) => /^caseStudyImage(\d+)?$/.test(k) && project[k])
+                .sort((a, b) => {
+                    // "caseStudyImage" sorts before "caseStudyImage1", "caseStudyImage2", ...
+                    const na = a === "caseStudyImage" ? 0 : parseInt(a.replace("caseStudyImage", ""), 10);
+                    const nb = b === "caseStudyImage" ? 0 : parseInt(b.replace("caseStudyImage", ""), 10);
+                    return na - nb;
+                });
+
+            galleryMainEl.innerHTML = "";
+            imageKeys.forEach((key, idx) => {
+                const img = document.createElement("img");
+                img.src = project[key];
+                img.alt = `${project.name} — Study Showcase ${idx + 1}`;
+                img.style.cssText =
+                    "width:100%;height:auto;display:block;margin:0;padding:0;border:0;border-radius:0;";
+                galleryMainEl.appendChild(img);
+            });
         }
 
         // --- Prev / Next Navigation ---

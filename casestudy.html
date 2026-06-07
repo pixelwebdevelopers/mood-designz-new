@@ -293,13 +293,14 @@
           </div>
           <!-- Project Block - Challenge Description with H2 Title and Paragraph End -->
 
-          <!-- Project Block - Main Case Study Image Start -->
-          <div class="mxd-project__block no-margin" style="padding: 4rem 0; width: 100vw !important; margin-left: calc(50% - 50vw) !important; margin-right: calc(50% - 50vw) !important; max-width: 100vw;">
-            <div class="text-center" style="width: 100%;">
-              <img id="cs-gallery-main" src="" alt="Case Study Image" style="width: 100%; height: auto; display: block; box-shadow: 0 30px 60px rgba(0,0,0,0.15);">
-            </div>
+          <!-- Project Block - Main Case Study Image(s) Start -->
+          <!-- Engine renders one <img> per caseStudyImage / caseStudyImage1 /
+               caseStudyImage2 / ... field, stacked with zero spacing and no
+               rounded corners. -->
+          <div class="mxd-project__block no-margin cs-gallery-block" style="padding: 4rem 0 0; width: 100vw !important; margin-left: calc(50% - 50vw) !important; margin-right: calc(50% - 50vw) !important; max-width: 100vw;">
+            <div id="cs-gallery-main" style="width: 100%; display: flex; flex-direction: column; gap: 0; font-size: 0; line-height: 0;"></div>
           </div>
-          <!-- Project Block - Main Case Study Image End -->
+          <!-- Project Block - Main Case Study Image(s) End -->
 
           <!-- Project Block - Project Link Start -->
           <div class="mxd-project__block no-margin">

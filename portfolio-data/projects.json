@@ -14,8 +14,20 @@
     "category": "concept",
     "meta": "Paper // Texture",
     "description": "Studio Mono is a deep dive into the intersection of analog craft and digital precision. Born from a fascination with the tactile qualities of paper, this conceptual project explores how organic textures can be synthesized into a hyper-modern digital aesthetic. The design philosophy revolves around constraint as a creative catalyst — monochromatic palettes, geometric grids, and the quiet power of negative space. The outcome is a visual system that feels simultaneously ancient and futuristic.",
-    "coverImage": "portfolio-data/images/s2.jpg",
-    "caseStudyImage": "portfolio-data/images/project_workspace.png"
+    "coverImage": "portfolio-data/images/Kora-Cover.jpg",
+    "caseStudyImage": "portfolio-data/images/kora/1 kora.webp",
+    "caseStudyImage1": "portfolio-data/images/kora/2 kora.webp",
+    "caseStudyImage2": "portfolio-data/images/kora/3 kora.webp",
+    "caseStudyImage3": "portfolio-data/images/kora/4 kora.webp",
+    "caseStudyImage4": "portfolio-data/images/kora/5 kora.webp",
+    "caseStudyImage5": "portfolio-data/images/kora/6 kora.webp",
+    "caseStudyImage6": "portfolio-data/images/kora/7 kora.webp",
+    "caseStudyImage7": "portfolio-data/images/kora/8 kora.webp",
+    "caseStudyImage8": "portfolio-data/images/kora/9 kora.webp",
+    "caseStudyImage9": "portfolio-data/images/kora/10 kora.webp",
+    "caseStudyImage10": "portfolio-data/images/kora/11 kora.webp",
+    "caseStudyImage11": "portfolio-data/images/kora/12 kora.webp",
+    "caseStudyImage13": "portfolio-data/images/kora/13 kora.webp"
   },
   {
     "id": "oak-and-iron",
@@ -135,4 +147,3 @@
     "caseStudyImage": "portfolio-data/images/project_vision.png"
   }
 ]
-
