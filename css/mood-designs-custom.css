@@ -731,43 +731,75 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
     z-index: 6;
 }
 
-/* Mobile Stack layout: stack them neatly under/above the centered logo */
+/* Mobile — same absolute-around-the-image layout as desktop, scaled down. */
 @media (max-width: 767px) {
     .mood-hero-objects-container {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        width: 100vw !important;
-        height: auto !important;
-        top: 120% !important;
-        left: 50% !important;
+        width: 65vw !important;
+        height: 65vw !important;
+        max-width: 320px;
+        max-height: 320px;
+        top: 50% !important;
     }
 
     .mood-hero-objects-container .mxd-move {
-        max-height: 180px;
-        width: auto !important;
+        width: 100% !important;
+        height: 100% !important;
         object-fit: contain;
-        margin-bottom: 1.5rem;
     }
 
     .mood-hero-stat-card {
-        margin-top: 1rem;
-        padding: 1rem 1.5rem;
-        width: 240px;
-        box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.6);
+        position: absolute;
+        margin: 0;
+        padding: 0.7rem 1rem;
+        width: max-content;
+        background-color: rgba(10, 10, 10, 0.55);
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
     }
 
+    /* Years of experience — top-right of the image */
     .mood-hero-stat-card.item-01 {
-        order: 1;
+        top: -1rem;
+        right: -3.5rem;
     }
 
+    /* Successful Projects — top-left of the image */
     .mood-hero-stat-card.item-02 {
-        order: 2;
+        top: -1rem;
+        left: -3.5rem;
     }
 
+    /* Global Clients — bottom-right of the image */
     .mood-hero-stat-card.item-03 {
-        order: 3;
+        bottom: 1rem;
+        right: -3rem;
     }
+
+    /* Stack number above descr so the cards stay narrow and don't collide
+       at the top of the image. */
+    .mood-hero-stat-card .mxd-counter.horizontal {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+    .mood-hero-stat-card .mxd-counter__number {
+        font-size: 1.4rem !important;
+    }
+    .mood-hero-stat-card .mxd-counter__descr {
+        font-size: 9px;
+        letter-spacing: 0.5px;
+    }
+    .mood-hero-stat-card .mxd-hero__mark.style-custom-stat { gap: 6px; }
+    .mood-hero-stat-card .mxd-hero__mark.style-custom-stat .style-custom-globe {
+        font-size: 16px !important;
+    }
+}
+
+/* Very narrow phones — pull the badges in a bit so they don't clip. */
+@media (max-width: 380px) {
+    .mood-hero-stat-card { padding: 0.55rem 0.8rem; }
+    .mood-hero-stat-card.item-01 { right: -1.5rem; top: -0.5rem; }
+    .mood-hero-stat-card.item-02 { left: -1.5rem; top: -0.5rem; }
+    .mood-hero-stat-card.item-03 { right: -1rem; bottom: 0.5rem; }
 }
 
 /* Adjustments for custom stats to keep them clean and large */
@@ -1299,36 +1331,18 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
   height: 86vh;
   max-height: 900px;
   text-decoration: none !important;
-  background:
-    radial-gradient(circle at 18% 12%, rgba(195, 255, 6, 0.18), transparent 38%),
-    radial-gradient(circle at 84% 88%, rgba(195, 255, 6, 0.12), transparent 42%),
-    linear-gradient(135deg, #0e0f0c 0%, #15170f 55%, #0a0b08 100%);
+  background: var(--base);
+  color: var(--base-opp);
   border-radius: 32px;
   overflow: hidden;
   isolation: isolate;
-  border: 1px solid rgba(195, 255, 6, 0.16);
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
   transform-style: preserve-3d;
-  transition: box-shadow 0.5s ease;
+  transition: background 0.3s ease;
   cursor: pointer;
 }
 
-.mxd-cs-end-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(195, 255, 6, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(195, 255, 6, 0.04) 1px, transparent 1px);
-  background-size: 60px 60px;
-  pointer-events: none;
-  -webkit-mask-image: radial-gradient(circle at center, #000 30%, transparent 75%);
-          mask-image: radial-gradient(circle at center, #000 30%, transparent 75%);
-  z-index: 0;
-}
-
 .mxd-cs-end-card:hover {
-  box-shadow: 0 50px 100px rgba(0, 0, 0, 0.6), 0 0 60px rgba(195, 255, 6, 0.12) inset;
+  box-shadow: none;
 }
 
 .mxd-cs-end-card__inner {
@@ -1349,17 +1363,17 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 10;
+  /* Lift the whole pill layer in front of the title (which sits at
+     translateZ(40px)) and keep its children in their own 3D context. */
+  transform: translateZ(100px);
+  transform-style: preserve-3d;
 }
 .mxd-cs-end-card__pill {
-  /* CSS variables that JS writes per-pill each frame to drive
-     a smooth mouse-parallax + idle float. The transform itself
-     combines our offset (--px, --py), per-pill rotation (--rot)
-     and depth (--z) so the rotate/z baked-in here can't be
-     stomped on by inline JS transforms. */
   --rot: 0deg;
-  --z:   30px;
-  --ax:  1;     /* horizontal parallax multiplier */
-  --ay:  1;     /* vertical parallax multiplier */
+  --z:   40px;
+  --ax:  1;
+  --ay:  1;
   --px:  0px;
   --py:  0px;
   position: absolute;
@@ -1368,66 +1382,69 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
   justify-content: center;
   padding: 10px 22px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.96);
-  color: #0d0d0d;
+  border: 1.5px solid #ffffff;
+  background-color: #000000;
+  color: #ffffff;
   font-family: var(--_font-default);
   font-weight: 500;
-  font-size: clamp(11px, 0.95vw, 16px);
-  letter-spacing: 0.02em;
+  font-size: clamp(12px, 1vw, 17px);
+  letter-spacing: 0.01em;
   white-space: nowrap;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
   transform: translate3d(var(--px), var(--py), var(--z)) rotate(var(--rot));
   will-change: transform;
+  z-index: 10;
 }
-.mxd-cs-end-card__pill[data-i="0"] { top: 22%; left: 18%; --rot: -9deg;  --z: 40px; --ax: 1.4; --ay: 0.8; }
-.mxd-cs-end-card__pill[data-i="1"] { top: 28%; right: 14%; --rot: 11deg;  --z: 60px; --ax: 1.8; --ay: 1.0; }
-.mxd-cs-end-card__pill[data-i="2"] { top: 62%; left: 12%; --rot: -12deg; --z: 50px; --ax: 1.5; --ay: 1.2; }
-.mxd-cs-end-card__pill[data-i="3"] { top: 68%; left: 32%; --rot:  4deg;  --z: 30px; --ax: 0.9; --ay: 0.7; }
-.mxd-cs-end-card__pill[data-i="4"] { top: 64%; right: 18%; --rot:  7deg;  --z: 70px; --ax: 2.0; --ay: 1.3; }
-.mxd-cs-end-card__pill[data-i="5"] { top: 24%; left: 44%; --rot: -3deg;  --z: 30px; --ax: 0.8; --ay: 0.6; }
+html[color-scheme="light"] .mxd-cs-end-card__pill {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+html[color-scheme="dark"] .mxd-cs-end-card__pill,
+html:not([color-scheme]) .mxd-cs-end-card__pill {
+  background-color: #161616 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+.mxd-cs-end-card__pill[data-i="0"] { top: 26%; left: 28%; --rot: -8deg;  --ax: 1.4; --ay: 0.8; }
+.mxd-cs-end-card__pill[data-i="1"] { top: 30%; right: 22%; --rot: 12deg;  --ax: 1.8; --ay: 1.0; }
+.mxd-cs-end-card__pill[data-i="2"] { top: 60%; left: 24%; --rot: -10deg; --ax: 1.5; --ay: 1.2; }
+.mxd-cs-end-card__pill[data-i="3"] { top: 12%; left: 12%; --rot:  6deg;  --ax: 0.9; --ay: 0.7; }
+.mxd-cs-end-card__pill[data-i="4"] { top: 64%; right: 14%; --rot:  9deg;  --ax: 2.0; --ay: 1.3; }
+.mxd-cs-end-card__pill[data-i="5"] { top: 18%; left: 56%; --rot: -4deg;  --ax: 0.8; --ay: 0.6; }
 
 .mxd-cs-end-card__title-wrap {
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1.5rem;
-  z-index: 3;
-  transform: translateZ(80px);
+  z-index: 2;
+  transform: translateZ(40px);
 }
 .mxd-cs-end-card__title {
   font-family: var(--_font-accent, var(--_font-default));
-  color: #f5f7ee;
+  color: var(--base-opp);
   font-weight: 800;
-  font-size: clamp(60px, 12vw, 220px);
+  font-size: clamp(60px, 14vw, 260px);
   line-height: 0.95;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   margin: 0;
-  background: linear-gradient(180deg, #ffffff 0%, #d4ff3a 50%, #c3ff06 100%);
-  -webkit-background-clip: text;
-          background-clip: text;
-  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+  -webkit-text-fill-color: currentColor;
 }
-.mxd-cs-end-card__spark {
-  color: var(--mood-lime, #c3ff06);
-  font-size: clamp(24px, 3vw, 48px);
-  filter: drop-shadow(0 0 12px rgba(195, 255, 6, 0.6));
-  animation: cs-spark-twinkle 2.4s ease-in-out infinite;
-}
-.mxd-cs-end-card__spark--right { animation-delay: 1.2s; }
-@keyframes cs-spark-twinkle {
-  0%, 100% { transform: scale(1) rotate(0deg);  opacity: 0.9; }
-  50%      { transform: scale(1.25) rotate(45deg); opacity: 1; }
-}
+.mxd-cs-end-card__spark { display: none; }
 
 .mxd-cs-end-card__desc {
   position: relative;
   z-index: 3;
   margin: clamp(20px, 3vh, 40px) 0 clamp(28px, 4vh, 56px);
-  color: rgba(245, 247, 238, 0.72);
-  font-size: clamp(14px, 1.3vw, 20px);
+  color: var(--t-muted);
+  font-size: clamp(14px, 1.2vw, 18px);
   line-height: 1.5;
   letter-spacing: 0.01em;
-  transform: translateZ(50px);
+  max-width: 560px;
+  transform: translateZ(30px);
 }
 
 .mxd-cs-end-card__cta {
@@ -1435,33 +1452,35 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
   z-index: 3;
   display: inline-flex;
   align-items: center;
-  gap: 16px;
-  padding: 18px 24px 18px 32px;
+  gap: 14px;
+  padding: 16px 26px;
   border-radius: 999px;
-  background: var(--mood-lime, #c3ff06);
-  color: #0a0a0a;
+  background: transparent;
+  color: #ffffff;
+  border: 1.5px solid #ffffff;
   font-family: var(--_font-default);
-  font-weight: 700;
-  font-size: clamp(15px, 1.2vw, 19px);
-  letter-spacing: 0.02em;
-  transform: translateZ(90px);
-  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
-  box-shadow: 0 14px 30px rgba(195, 255, 6, 0.28);
+  font-weight: 600;
+  font-size: clamp(14px, 1vw, 17px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: translateZ(60px);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: none;
   will-change: transform;
 }
 .mxd-cs-end-card__cta-arrow {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 999px;
-  background: #0a0a0a;
-  color: var(--mood-lime, #c3ff06);
+  width: 22px;
+  height: 22px;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
   transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
 }
-.mxd-cs-end-card:hover .mxd-cs-end-card__cta {
-  box-shadow: 0 18px 40px rgba(195, 255, 6, 0.45);
+.mxd-cs-end-card__cta-arrow i {
+  font-size: 18px;
 }
 .mxd-cs-end-card:hover .mxd-cs-end-card__cta-arrow {
   transform: rotate(45deg);
@@ -1510,36 +1529,156 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
 
 /* Mobile — single-column layout, no 3D tilt, no follower dot.   */
 @media (max-width: 767.98px) {
+  .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell.mxd-cs-end-card-wrap {
+    width: 88vw !important;
+    max-width: 88vw !important;
+    max-height: 88vh !important;
+  }
   .mxd-cs-end-card {
-    height: 78vh;
+    height: 80vh;
     max-height: 720px;
     border-radius: 22px;
     cursor: pointer;
   }
-  .mxd-cs-end-card__inner { padding: 4vh 6vw; }
+  .mxd-cs-end-card__inner { padding: 4vh 5vw; }
   .mxd-cs-end-card__cursor { display: none; }
-  .mxd-cs-end-card__title { font-size: clamp(54px, 18vw, 110px); }
+  .mxd-cs-end-card__title { font-size: clamp(40px, 12.5vw, 78px); letter-spacing: -0.02em; }
   .mxd-cs-end-card__title-wrap { gap: 0.6rem; }
-  .mxd-cs-end-card__spark { font-size: 22px; }
-  .mxd-cs-end-card__desc { font-size: 14px; margin: 18px 0 26px; }
-  .mxd-cs-end-card__cta { padding: 14px 18px 14px 24px; font-size: 14px; gap: 12px; }
-  .mxd-cs-end-card__cta-arrow { width: 32px; height: 32px; }
-  .mxd-cs-end-card__pill { font-size: 11px; padding: 7px 13px; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); }
+  .mxd-cs-end-card__desc { font-size: 13px; margin: 18px 0 26px; max-width: 90%; }
+  .mxd-cs-end-card__cta { padding: 12px 20px; font-size: 12px; gap: 10px; letter-spacing: 0.06em; }
+  .mxd-cs-end-card__cta-arrow { width: 18px; height: 18px; }
+  .mxd-cs-end-card__cta-arrow i { font-size: 15px; }
+  .mxd-cs-end-card__pill { font-size: 11px; padding: 6px 12px; border-width: 1.2px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
   .mxd-cs-end-card__pill[data-i="0"] { top: 14%; left: 6%; }
   .mxd-cs-end-card__pill[data-i="1"] { top: 18%; right: 4%; }
-  .mxd-cs-end-card__pill[data-i="2"] { top: 70%; left: 4%; }
-  .mxd-cs-end-card__pill[data-i="3"] { top: 78%; left: 36%; }
-  .mxd-cs-end-card__pill[data-i="4"] { top: 72%; right: 4%; }
-  .mxd-cs-end-card__pill[data-i="5"] { top: 22%; left: 36%; }
-}
-
-/* Very narrow phones — drop a couple of pills so the headline reads. */
-@media (max-width: 420px) {
-  .mxd-cs-end-card__pill[data-i="3"],
+  .mxd-cs-end-card__pill[data-i="2"] { top: 72%; left: 4%; }
+  .mxd-cs-end-card__pill[data-i="3"] { display: none; }
+  .mxd-cs-end-card__pill[data-i="4"] { top: 76%; right: 4%; }
   .mxd-cs-end-card__pill[data-i="5"] { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .mxd-cs-end-card__pill,
   .mxd-cs-end-card__spark { animation: none; }
+}
+
+/* =========================================================== */
+/* Partners / Strategic Network                                 */
+/* Two infinite marquees of brand logos, sliding opposite ways. */
+/* =========================================================== */
+
+.mood-partners {
+  position: relative;
+}
+
+.mood-partners__heading {
+  margin-bottom: 3rem;
+}
+
+.mood-partners__eyebrow {
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.mood-partners__title {
+  font-size: clamp(2.2rem, 5vw, 4.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 auto;
+  max-width: 22ch;
+}
+
+.mood-partners__rails {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+
+.mood-partners__rail {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.mood-partners__track {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  width: max-content;
+  will-change: transform;
+}
+
+.mood-partners__track--ltr {
+  animation: mood-partners-ltr 50s linear infinite;
+}
+
+.mood-partners__track--rtl {
+  animation: mood-partners-rtl 60s linear infinite;
+}
+
+.mood-partners__rail:hover .mood-partners__track {
+  animation-play-state: paused;
+}
+
+@keyframes mood-partners-ltr {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes mood-partners-rtl {
+  from { transform: translate3d(-50%, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+
+.mood-partners__item {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 72px;
+  padding: 0 0.5rem;
+  opacity: 0.5;
+  transition: opacity 0.35s ease;
+}
+
+.mood-partners__item:hover {
+  opacity: 1;
+}
+
+.mood-partners__item img {
+  display: block;
+  height: 100%;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+  /* Brand SVGs ship with white fill, so we flatten them to black with
+     brightness(0) and re-invert for dark mode. Result: black logos on
+     light backgrounds, white logos on dark backgrounds. */
+  filter: brightness(0);
+}
+
+@media (prefers-color-scheme: dark) {
+  .mood-partners__item img { filter: brightness(0) invert(1); }
+}
+[color-scheme=light] .mood-partners__item img { filter: brightness(0); }
+[color-scheme=dark]  .mood-partners__item img { filter: brightness(0) invert(1); }
+
+@media (max-width: 767.98px) {
+  .mood-partners__heading { margin-bottom: 2rem; }
+  .mood-partners__rails { gap: 0.75rem; }
+  .mood-partners__track { gap: 2.5rem; }
+  .mood-partners__item { height: 52px; padding: 0 0.25rem; }
+  .mood-partners__item img { max-width: 130px; }
+  .mood-partners__track--ltr { animation-duration: 35s; }
+  .mood-partners__track--rtl { animation-duration: 42s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mood-partners__track--ltr,
+  .mood-partners__track--rtl { animation: none; }
 }
