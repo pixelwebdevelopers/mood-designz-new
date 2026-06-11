@@ -49,21 +49,34 @@
 
   <link rel="stylesheet" type="text/css" href="css/mood-designs-custom.css">
 
-  <!-- Case Studies — Horizontal Scroll Hijack styles -->
+  <!-- Case Studies — Horizontal Scroll, Bottom-Up Image Growth styles -->
   <style>
-    /* The JS always injects a fresh container (.mxd-cs-pin > .mxd-cs-track)
-       and moves the title + cards into it. The original Bootstrap row +
-       bottom CTA are hidden permanently. ONE DOM, TWO CSS MODES below:
-         - desktop: pinned 100vh, GSAP translates the track
-         - mobile : auto-height, track itself has overflow-x: auto */
+    /* The JS injects a pinned container (.mxd-cs-pin > .mxd-cs-track),
+       moves the section title + project cards into it and hides the
+       original masonry row + bottom CTA. The section pins and vertical
+       scroll becomes horizontal travel.
+
+       Every card is two stacked portions:
+         - image portion: ALWAYS full card width (cards are flush, so
+           images touch edge-to-edge at every moment — no horizontal
+           gaps, ever). Entering from the right it is a low strip
+           anchored near the bottom; as the card travels left it grows
+           UPWARD until the top hits the screen top and the bottom lands
+           on the text line. Once grown it never shrinks again while
+           sliding out.
+         - text portion: tag pills + big title in the band below the
+           image, fading in once the image has (almost) fully grown.
+
+       The final cell is the Portfolio end card at exactly 100vw x 100vh,
+       so the section ends with only it on screen. */
 
     .mxd-cs-injected > .container-fluid > .mxd-projects-masonry__gallery,
     .mxd-cs-injected > .container-fluid > .mxd-projects-masonry__btngroup {
       display: none !important;
     }
 
-    /* Force the case-studies section's container chain to drop horizontal
-       padding so the horizontal-scroll track runs edge-to-edge. */
+    /* Drop horizontal padding on the section's container chain so the
+       flush images run edge-to-edge. */
     .mxd-container.grid-l-container:has(.mxd-cs-pin),
     .mxd-section.padding-pre-grid:has(.mxd-cs-pin) > .mxd-container,
     .mxd-projects-masonry:has(.mxd-cs-pin),
@@ -74,138 +87,152 @@
     }
 
     .mxd-cs-pin {
+      /* Layout knobs (the JS derives the growth from the same values):
+         --cs-cell-w   width of one case-study card (= its image width).
+         --cs-img-h    height of the image portion when fully grown; the
+                       text band lives in the remaining space below it. */
+      --cs-cell-w: 56vw;
+      --cs-img-h: 76vh;
       position: relative;
       width: 100%;
       max-width: 100%;
+      height: 100vh;
       overflow: hidden;
     }
+
     .mxd-cs-pin .mxd-cs-track {
-      display: flex !important;
-      flex-flow: row nowrap !important;
-      align-items: center !important;
-      margin: 0 !important;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: stretch;
+      height: 100vh;
+      width: -webkit-max-content;
+      width: max-content;
+      max-width: none;
+      margin: 0;
+      padding: 0;
       will-change: transform;
     }
-    .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell {
-      position: static !important;
-      left: auto !important;
-      top: auto !important;
+
+    /* Cards are flush: no gaps, no margins between them. */
+    .mxd-cs-cell {
+      position: relative;
+      flex: 0 0 auto;
+      width: var(--cs-cell-w);
+      height: 100vh;
+    }
+
+    /* The original "Case studies" title block rides as the first cell. */
+    .mxd-cs-cell--title {
+      width: 34vw;
+      min-width: 340px;
+      max-width: 520px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: 5vw;
+      padding-right: 6vw;
+    }
+
+    /* Image portion: full card width at all times; the JS only drives
+       top + height (the bottom-up growth). */
+    .mxd-cs-cell .mxd-cs-cell__media {
+      position: absolute !important;
+      left: 0 !important;
       right: auto !important;
-      bottom: auto !important;
-      float: none !important;
+      width: 100% !important;
+      top: 57vh;
+      height: 28vh;
+      max-width: none !important;
+      max-height: none !important;
+      min-height: 0 !important;
       margin: 0 !important;
-      padding: 0 !important;
-      flex: 0 0 auto !important;
-      opacity: 1 !important;
+      border-radius: 0 !important;
+      display: block;
+      overflow: hidden;
+      will-change: top, height;
+      /* The template transitions .mxd-project-item__media — that fights
+         the per-frame JS sizing, so kill it. */
+      transition: none !important;
+    }
+    .mxd-cs-cell .mxd-cs-cell__media .mxd-project-item__preview {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: none !important;
+      max-height: none !important;
       transform: none !important;
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: center !important;
+      background-size: cover !important;
+      background-position: center center !important;
+      background-repeat: no-repeat;
+      border-radius: 0 !important;
+      transition: none !important;
     }
 
-    /* === Desktop (>= 768px) — pinned, GSAP-translated horizontal scroll === */
-    @media (min-width: 768px) {
-      .mxd-cs-pin {
-        height: 100vh;
-      }
-      .mxd-cs-pin .mxd-cs-track {
-        height: 100vh !important;
-        width: -webkit-max-content !important;
-        width: max-content !important;
-        max-width: none !important;
-        padding: 0 !important;
-        gap: 0.25rem !important;
-        overflow: visible !important;
-      }
-      .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell {
-        width: 58vw !important;
-        max-width: 1100px !important;
-        height: auto !important;
-        max-height: 96vh !important;
-      }
-      .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell.mxd-cs-cell--title {
-        width: 32vw !important;
-        min-width: 320px !important;
-        max-width: 460px !important;
-      }
-      .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell:first-child {
-        margin-left: 4vw !important;
-      }
-      .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell:last-child {
-        margin-right: 4vw !important;
-      }
-      .mxd-cs-pin .mxd-cs-track .mxd-project-item__media,
-      .mxd-cs-pin .mxd-cs-track .mxd-project-item__media.masonry-media {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: 82vh !important;
-        max-height: 82vh !important;
-        min-height: 0 !important;
-      }
-      .mxd-cs-pin .mxd-cs-track .mxd-project-item__preview,
-      .mxd-cs-pin .mxd-cs-track .mxd-project-item__preview.masonry-preview {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: 100% !important;
-        max-height: 100% !important;
-        transform: none !important;
-        background-position: center center !important;
-        background-size: cover !important;
-        inset: 0 !important;
-      }
+    /* Text portion: the band below the fully-grown image. */
+    .mxd-cs-cell__caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: var(--cs-img-h);
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(10px, 2.2vh, 24px);
+      padding: clamp(16px, 3.5vh, 36px) clamp(16px, 2.5vw, 44px) 0;
+      opacity: 0;
+      overflow: hidden;
+    }
+    .mxd-cs-cell__caption .mxd-project-item__tags {
+      position: static !important;
+      inset: auto !important;
+      align-self: stretch;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      transform: none !important;
+    }
+    .mxd-cs-cell__title {
+      margin: 0;
+      font-size: clamp(24px, 2.8vw, 46px);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      font-weight: 600;
+      text-align: center;
     }
 
-    /* === Mobile (< 768px) — same pinned horizontal scroll as desktop,
-       just with mobile-tuned cell dimensions so the type / images still
-       breathe at narrow widths. === */
+    /* Final cell — the Portfolio end card owns the whole screen. */
+    .mxd-cs-cell--end {
+      width: 100vw;
+    }
+    .mxd-cs-cell--end .mxd-cs-cell__media {
+      top: 0 !important;
+      height: 100% !important;
+    }
+    .mxd-cs-cell--end .mxd-cs-end-card {
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      border-radius: 0;
+    }
+
     @media (max-width: 767.98px) {
       .mxd-cs-pin {
-        height: 100vh;
+        --cs-cell-w: 88vw;
+        --cs-img-h: 66vh;
       }
-      .mxd-cs-pin .mxd-cs-track {
-        height: 100vh !important;
-        width: -webkit-max-content !important;
-        width: max-content !important;
-        max-width: none !important;
-        padding: 0 !important;
-        gap: 0.5rem !important;
-        overflow: visible !important;
+      .mxd-cs-cell--title {
+        width: 78vw;
+        min-width: 0;
+        margin-left: 4vw;
+        padding-right: 4vw;
       }
-      .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell {
-        width: 82vw !important;
-        max-width: 82vw !important;
-        height: auto !important;
-        max-height: 88vh !important;
-      }
-      .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell.mxd-cs-cell--title {
-        width: 70vw !important;
-        min-width: 0 !important;
-        max-width: 70vw !important;
-      }
-      .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell:first-child {
-        margin-left: 3vw !important;
-      }
-      .mxd-cs-pin .mxd-cs-track > .mxd-cs-cell:last-child {
-        margin-right: 3vw !important;
-      }
-      .mxd-cs-pin .mxd-cs-track .mxd-project-item__media,
-      .mxd-cs-pin .mxd-cs-track .mxd-project-item__media.masonry-media {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: 68vh !important;
-        max-height: 68vh !important;
-        min-height: 0 !important;
-      }
-      .mxd-cs-pin .mxd-cs-track .mxd-project-item__preview,
-      .mxd-cs-pin .mxd-cs-track .mxd-project-item__preview.masonry-preview {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: 100% !important;
-        max-height: 100% !important;
-        transform: none !important;
-        background-position: center center !important;
-        background-size: cover !important;
-        inset: 0 !important;
+      .mxd-cs-cell__title {
+        font-size: clamp(20px, 5.5vw, 28px);
       }
     }
   </style>
@@ -374,7 +401,7 @@
                 <div class="mood-hero-stat-card item-03 loading__item hero-02-static-anim-el">
                   <div class="mxd-hero__mark style-custom-stat">
                     <i class="ph-bold ph-globe style-custom-globe"></i>
-                    <span class="mxd-counter__descr t-140 t-bright t-small">Global<br>Clients</span>
+                    <span class="mxd-counter__descr t-140 t-bright t-small">Global Clients</span>
                   </div>
                 </div>
               </div>
@@ -1114,10 +1141,6 @@
                 <!-- Case Studies — Portfolio End Card (full-screen finale) -->
                 <div class="col-12 mxd-project-item mxd-projects-masonry__item mxd-cs-end-card-wrap">
                   <a class="mxd-cs-end-card" href="portfolio.html" aria-label="View the full portfolio">
-                    <span class="mxd-cs-end-card__cursor" aria-hidden="true">
-                      <span class="mxd-cs-end-card__cursor-label">View<br>All</span>
-                      <i class="ph-bold ph-arrow-up-right"></i>
-                    </span>
                     <div class="mxd-cs-end-card__inner">
                       <div class="mxd-cs-end-card__title-wrap">
                         <i class="ph-fill ph-sparkle mxd-cs-end-card__spark mxd-cs-end-card__spark--left" aria-hidden="true"></i>
@@ -1133,7 +1156,7 @@
                     <div class="mxd-cs-end-card__pills" aria-hidden="true">
                       <span class="mxd-cs-end-card__pill" data-i="0">Branding</span>
                       <span class="mxd-cs-end-card__pill" data-i="1">Social Media</span>
-                      <span class="mxd-cs-end-card__pill" data-i="2">Photography</span>
+                      <span class="mxd-cs-end-card__pill" data-i="2">3D Design</span>
                       <span class="mxd-cs-end-card__pill" data-i="3">Packaging</span>
                       <span class="mxd-cs-end-card__pill" data-i="4">Website</span>
                       <span class="mxd-cs-end-card__pill" data-i="5">UI / UX</span>
@@ -1188,7 +1211,7 @@
             <div class="container-fluid p-0">
               <div class="row g-0 justify-content-center">
                 <div class="col-12">
-                  <p class="mxd-point-subtitle mood-partners__eyebrow">
+                  <p class="mxd-point-subtitle mood-partners__eyebrow anim-uni-in-up">
                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20px" height="20px"
                       viewBox="0 0 20 20" fill="currentColor">
                       <path fill="currentColor" d="M19.6,9.6c0,0-3,0-4,0c-0.4,0-1.8-0.2-1.8-0.2c-0.6-0.1-1.1-0.2-1.6-0.6c-0.5-0.3-0.9-0.8-1.2-1.2
@@ -1203,7 +1226,7 @@
                   </p>
                 </div>
                 <div class="col-12">
-                  <div class="mxd-section-title__title">
+                  <div class="mxd-section-title__title anim-uni-in-up">
                     <h2 class="mood-partners__title">Global brands &amp; partners</h2>
                   </div>
                 </div>
@@ -1218,7 +1241,7 @@
       <!-- Marquee strip — sits outside the padded container so logos
            slide edge to edge. -->
       <div class="mood-partners__rails">
-        <div class="mood-partners__rail" aria-hidden="true">
+        <div class="mood-partners__rail anim-uni-in-up" aria-hidden="true">
           <div class="mood-partners__track mood-partners__track--ltr">
             <div class="mood-partners__item"><img src="page-images/home/brands/brandv2-1.svg" alt="Brand"></div>
             <div class="mood-partners__item"><img src="page-images/home/brands/brandv2-2.svg" alt="Brand"></div>
@@ -1244,7 +1267,7 @@
           </div>
         </div>
 
-        <div class="mood-partners__rail" aria-hidden="true">
+        <div class="mood-partners__rail anim-uni-in-up" aria-hidden="true">
           <div class="mood-partners__track mood-partners__track--rtl">
             <div class="mood-partners__item"><img src="page-images/home/brands/brand-1.svg" alt="Brand"></div>
             <div class="mood-partners__item"><img src="page-images/home/brands/brand-2.svg" alt="Brand"></div>
@@ -1847,26 +1870,50 @@
   <script src="js/mood-designs-custom.js"></script>
 
   <!--
-    Case Studies — Horizontal Scroll Hijack
-    ---------------------------------------------------
-    Tunable knobs (edit the constants below):
-      SCROLL_DISTANCE   Multiplier on the track's horizontal travel that
-                        decides how much vertical scroll the pinned
-                        section consumes. 1 = scroll distance equals
-                        track width. Increase for a slower/lazier feel
-                        (e.g. 1.2-1.5), decrease for a snappier one.
-      SCRUB_SMOOTH      ScrollTrigger scrub smoothing in seconds.
-                        0 = 1:1 with scroll, higher = lazier follow.
-                        Try 0.5-1.5.
-      MOBILE_BREAKPOINT Below this viewport width the hijack is disabled
-                        and the gallery falls back to native horizontal
-                        overflow scrolling (see CSS .mxd-cs-hscroll-mobile).
+    Case Studies — Horizontal Scroll, Bottom-Up Image Growth
+    --------------------------------------------------------
+    The section pins for one viewport and vertical scroll is translated
+    into horizontal travel of the track. Each card = image portion (top)
+    + text portion (band below). The image is ALWAYS full card width —
+    cards are flush, so neighboring images touch edge-to-edge at every
+    moment. A card entering from the right starts as a low strip anchored
+    near the bottom of the screen; as it travels left it grows upward
+    until the image tops out (top of screen -> --cs-img-h line) and the
+    caption fades in below. Growth is one-way: once grown, a card stays
+    fully grown while it slides out to the left. The final cell is the
+    Portfolio end card at exactly 100vw x 100vh.
+
+    Tunable knobs:
+      SCROLL_DISTANCE  Multiplier on the track's horizontal travel that
+                       decides how much vertical scroll the pinned section
+                       consumes. 1 = scroll distance equals track width.
+      SCRUB_SMOOTH     ScrollTrigger scrub smoothing in seconds.
+                       0 = locked 1:1 to the scrollbar, higher = lazier.
+      GROWN_AT         Viewport-width fraction: a card is fully grown when
+                       its left edge reaches this position (0.3 = 30% from
+                       the left). Entering at the right edge = growth 0.
+      MIN_H / LOW_ANCHOR / FULL_ANCHOR
+                       Entering image height (viewport-height fraction) and
+                       where the image's bottom edge sits while small /
+                       when grown (the grown anchor = --cs-img-h).
+      CAPTION_AT       Growth progress (0..1) at which the caption starts
+                       fading in.
+      Layout knobs live in CSS on .mxd-cs-pin:
+                       --cs-cell-w, --cs-img-h.
   -->
   <script>
     (function () {
       var SCROLL_DISTANCE = 1;
       var SCRUB_SMOOTH = 0.8;
+      var END_HOLD = 0.12;      // extra scroll (fraction of the track travel)
+                                // spent holding on the fullscreen end card
+                                // before the page unpins and moves on
+      var GROWN_AT = 0.30;
+      var MIN_H = 0.28;
+      var LOW_ANCHOR = 0.85;     // image bottom sits at 85vh while small
+      var CAPTION_AT = 0.78;
       var MOBILE_BREAKPOINT = 768;
+      var MIN_H_MOBILE = 0.24;
 
       // ---- helpers ------------------------------------------------------
       function destroyMasonry(row) {
@@ -1884,73 +1931,79 @@
         row.removeAttribute('data-masonry');
       }
 
-      function nukeInline(el) {
-        if (!el) return;
-        el.removeAttribute('style');
-        var inner = el.querySelectorAll('.mxd-project-item__media, .mxd-project-item__preview, .masonry-media, .masonry-preview, .anim-uni-in-up');
-        for (var i = 0; i < inner.length; i++) inner[i].removeAttribute('style');
+      function clean(el) {
+        if (el) el.removeAttribute('style');
       }
 
-      // Belt-and-braces: if anything writes inline width/height/transform
-      // on a card's media/preview, wipe it on the next tick. Ignores the
-      // track itself (GSAP needs to set transform on it on desktop).
-      function guardInlineStyles(rootEl) {
-        if (typeof MutationObserver === 'undefined') return null;
-        var pending = false;
-        var obs = new MutationObserver(function (records) {
-          if (pending) return;
-          // Skip records targeting the track root (GSAP writes its transform there).
-          var hasRelevant = false;
-          for (var k = 0; k < records.length; k++) {
-            if (records[k].target !== rootEl) { hasRelevant = true; break; }
-          }
-          if (!hasRelevant) return;
-          pending = true;
-          requestAnimationFrame(function () {
-            pending = false;
-            var targets = rootEl.querySelectorAll('.mxd-project-item__media, .mxd-project-item__preview');
-            for (var i = 0; i < targets.length; i++) {
-              var t = targets[i];
-              var s = t.getAttribute('style') || '';
-              if (/(^|;)\s*(width|height|max-width|max-height|transform|min-width|min-height|inset|top|left|right|bottom)\s*:/i.test(s)) {
-                t.removeAttribute('style');
-              }
-            }
-          });
-        });
-        obs.observe(rootEl, {
-          attributes: true,
-          attributeFilter: ['style'],
-          subtree: true
-        });
-        return obs;
+      // Fully-grown image height in px ( --cs-img-h, resolved per frame
+      // so it tracks viewport resizes for free).
+      function imgZonePx(pin) {
+        var v = getComputedStyle(pin).getPropertyValue('--cs-img-h').trim();
+        var n = parseFloat(v);
+        if (v.indexOf('vh') !== -1) return window.innerHeight * n / 100;
+        return n || window.innerHeight * 0.72;
       }
 
-      // ---- inject the shared pin + track (runs once, regardless of viewport) ----
-      function injectTrack(masonryWrap, origRow, titleEl, itemEls) {
-        var pinWrap = document.createElement('div');
-        pinWrap.className = 'mxd-cs-pin';
-
+      // ---- build the pinned track ----------------------------------------
+      function buildTrack(masonryWrap, origRow, titleEl, itemEls) {
+        var pin = document.createElement('div');
+        pin.className = 'mxd-cs-pin';
         var track = document.createElement('div');
         track.className = 'mxd-cs-track';
 
+        titleEl.classList.remove('col-12', 'col-xl-6');
         titleEl.classList.add('mxd-cs-cell', 'mxd-cs-cell--title');
-        nukeInline(titleEl);
+        clean(titleEl);
         track.appendChild(titleEl);
 
-        Array.prototype.forEach.call(itemEls, function (el) {
-          el.classList.add('mxd-cs-cell');
-          nukeInline(el);
-          track.appendChild(el);
+        Array.prototype.forEach.call(itemEls, function (item) {
+          var cell = document.createElement('div');
+          cell.className = 'mxd-cs-cell';
+
+          // The portfolio end card: full-screen final cell, no growth.
+          if (item.classList.contains('mxd-cs-end-card-wrap')) {
+            cell.className += ' mxd-cs-cell--end';
+            item.classList.remove('col-12', 'mxd-project-item', 'mxd-projects-masonry__item');
+            item.classList.add('mxd-cs-cell__media');
+            clean(item);
+            cell.appendChild(item);
+            track.appendChild(cell);
+            return;
+          }
+
+          var media = item.querySelector('.mxd-project-item__media');
+          if (!media) return;
+          media.classList.add('mxd-cs-cell__media');
+          clean(media);
+          clean(media.querySelector('.mxd-project-item__preview'));
+          cell.appendChild(media);
+
+          // Text portion: pills (left) + big centered title, in the band
+          // below the image. Lives on the cell, not inside the image.
+          var caption = document.createElement('div');
+          caption.className = 'mxd-cs-cell__caption';
+          var tags = media.querySelector('.mxd-project-item__tags');
+          if (tags) {
+            clean(tags);
+            caption.appendChild(tags);
+          }
+          var nameLink = item.querySelector('.mxd-project-item__name a');
+          var title = document.createElement('div');
+          title.className = 'mxd-cs-cell__title';
+          title.textContent = nameLink ?
+            nameLink.textContent.replace(/\s+/g, ' ').trim() : '';
+          caption.appendChild(title);
+          cell.appendChild(caption);
+
+          cell.__media = media;
+          cell.__caption = caption;
+          track.appendChild(cell);
         });
 
-        pinWrap.appendChild(track);
+        pin.appendChild(track);
         masonryWrap.classList.add('mxd-cs-injected');
-        var host = origRow.parentNode || masonryWrap;
-        host.appendChild(pinWrap);
-
-        guardInlineStyles(track);
-        return { pinWrap: pinWrap, track: track };
+        (origRow.parentNode || masonryWrap).appendChild(pin);
+        return { pin: pin, track: track };
       }
 
       function init() {
@@ -1962,76 +2015,103 @@
         var itemEls = origRow.querySelectorAll('.mxd-projects-masonry__item');
         if (!titleEl || !itemEls.length) return;
 
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+        gsap.registerPlugin(ScrollTrigger);
+
         destroyMasonry(origRow);
-        var built = injectTrack(masonryWrap, origRow, titleEl, itemEls);
-        var pinWrap = built.pinWrap;
+        var built = buildTrack(masonryWrap, origRow, titleEl, itemEls);
+        var pin = built.pin;
         var track = built.track;
-
-        // Our injection changes the document height (masonry destroyed,
-        // items moved, original row hidden, new track added). Every
-        // ScrollTrigger below us — e.g. the footer's animate-card-3 batches
-        // and the stacking-cards pin — has STALE start/end positions until
-        // it refreshes. On desktop the matchMedia callback below refreshes;
-        // on mobile we must do it here, otherwise the footer animations
-        // never fire (their triggers stay beyond the page's max scroll).
-        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-          gsap.registerPlugin(ScrollTrigger);
-          requestAnimationFrame(function () { ScrollTrigger.refresh(); });
-          setTimeout(function () { ScrollTrigger.refresh(); }, 600);
-        } else {
-          return;
-        }
-
-        // ---- grow-to-center scaling -------------------------------------
-        // Each card's transform: scale() is driven by how close its
-        // horizontal center is to the viewport center. The centered card
-        // sits at scale 1; cells fall off to MIN_SCALE as they move away.
-        var MIN_SCALE = 0.6;
-        var FALLOFF = 0.85; // fraction of viewport width over which scale fades
         var cells = track.querySelectorAll('.mxd-cs-cell');
-        function updateScales() {
+
+        // ---- bottom-up growth ---------------------------------------------
+        // Growth p for a card: 0 when its left edge is at the right edge
+        // of the viewport, 1 once the left edge reaches GROWN_AT of the
+        // viewport width. Clamped, so a card that finished growing stays
+        // fully grown while it keeps moving left and out of the screen.
+        function updateGrowth() {
           var vw = window.innerWidth;
-          var viewCenter = vw / 2;
-          var falloffPx = vw * FALLOFF;
+          var vh = window.innerHeight;
+          var zone = imgZonePx(pin);
+          var minH = vh * (vw < MOBILE_BREAKPOINT ? MIN_H_MOBILE : MIN_H);
+          var grownX = vw * GROWN_AT;
           for (var i = 0; i < cells.length; i++) {
             var cell = cells[i];
-            if (cell.classList.contains('mxd-cs-cell--title')) continue;
-            var r = cell.getBoundingClientRect();
-            var cellCenter = r.left + r.width / 2;
-            var dist = Math.abs(cellCenter - viewCenter);
-            var t = Math.min(1, dist / falloffPx);
-            var scale = 1 - (1 - MIN_SCALE) * t;
-            cell.style.setProperty('transform', 'scale(' + scale.toFixed(3) + ')', 'important');
+            var media = cell.__media;
+            if (!media) continue; // title / end cells
+            var left = cell.getBoundingClientRect().left;
+            var p = (vw - left) / (vw - grownX);
+            p = Math.max(0, Math.min(1, p));
+            var h = minH + (zone - minH) * p;
+            // Bottom edge eases from LOW_ANCHOR (low strip) up to the
+            // text line; the top does most of the travel = growth reads
+            // as "from the bottom, upward".
+            var bottom = vh * LOW_ANCHOR + (zone - vh * LOW_ANCHOR) * p;
+            media.style.top = (bottom - h).toFixed(1) + 'px';
+            media.style.height = h.toFixed(1) + 'px';
+            if (cell.__caption) {
+              var op = (p - CAPTION_AT) / (1 - CAPTION_AT);
+              op = Math.max(0, Math.min(1, op));
+              cell.__caption.style.opacity = op.toFixed(3);
+              cell.__caption.style.transform = 'translateY(' + (28 * (1 - op)).toFixed(1) + 'px)';
+            }
           }
         }
 
-        // Pinned horizontal-scroll hijack — same on desktop and mobile.
+        // ---- pinned horizontal hijack ------------------------------------
         var getDistance = function () {
           return Math.max(0, track.scrollWidth - window.innerWidth);
         };
 
-        var tween = gsap.to(track, {
+        // Timeline = the track travel followed by a dead-air hold, so once
+        // the end card fills the screen the user has to scroll a little
+        // more before the section unpins and the page moves on.
+        var tl = gsap.timeline();
+        tl.to(track, {
           x: function () { return -getDistance(); },
-          ease: 'none'
+          ease: 'none',
+          duration: 1,
+          // Growth must follow the track's *actual* position, which keeps
+          // easing for SCRUB_SMOOTH seconds after the scrollbar stops —
+          // so it hangs off the tween, not off ScrollTrigger's onUpdate
+          // (that only fires while the scroll position is changing).
+          onUpdate: updateGrowth
         });
+        tl.to({}, { duration: END_HOLD });
 
         ScrollTrigger.create({
-          animation: tween,
-          trigger: pinWrap,
+          animation: tl,
+          trigger: pin,
           start: 'top top',
           end: function () { return '+=' + (getDistance() * SCROLL_DISTANCE); },
-          pin: pinWrap,
+          pin: pin,
           pinType: 'transform',
           scrub: SCRUB_SMOOTH,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          onUpdate: updateScales,
-          onRefresh: updateScales
+          onRefresh: updateGrowth
         });
 
-        window.addEventListener('resize', updateScales);
-        requestAnimationFrame(function () { ScrollTrigger.refresh(); updateScales(); });
-        setTimeout(function () { ScrollTrigger.refresh(); updateScales(); }, 600);
+        ScrollTrigger.sort();
+
+        window.addEventListener('resize', updateGrowth);
+
+        // Our injection changes the document height (masonry destroyed,
+        // items moved, original row hidden) — every ScrollTrigger below
+        // this section has stale start/end positions until a refresh.
+        // Lenis caches the page's max scroll too: if it misses the height
+        // change, scrolling clamps short of the footer — so force its
+        // recalculation alongside each refresh.
+        function refreshAll() {
+          ScrollTrigger.sort();
+          ScrollTrigger.refresh();
+          if (window.lenis && typeof window.lenis.resize === 'function') {
+            window.lenis.resize();
+          }
+          updateGrowth();
+        }
+        requestAnimationFrame(refreshAll);
+        setTimeout(refreshAll, 600);
       }
 
       if (document.readyState === 'complete') {
@@ -2058,7 +2138,6 @@
         if (!card) return;
         var inner = card.querySelector('.mxd-cs-end-card__inner');
         var cta = card.querySelector('.mxd-cs-end-card__cta');
-        var cursor = card.querySelector('.mxd-cs-end-card__cursor');
         var pills = Array.prototype.slice.call(card.querySelectorAll('.mxd-cs-end-card__pill'));
         if (!inner || !pills.length) return;
         if (prefersReduced || isTouch) return;
@@ -2086,7 +2165,6 @@
         var mx = 0, my = 0;          // raw pointer inside card
         var tmx = 0, tmy = 0;        // smoothed mouse (for tilt + pills)
         var ctaX = 0, ctaY = 0;
-        var cursorX = 0, cursorY = 0;
 
         function loop() {
           var w = rect.width || 1, h = rect.height || 1;
@@ -2130,14 +2208,6 @@
             ctaX += (dx * 0.22 * pull - ctaX) * 0.18;
             ctaY += (dy * 0.22 * pull - ctaY) * 0.18;
             cta.style.translate = ctaX.toFixed(2) + 'px ' + ctaY.toFixed(2) + 'px';
-          }
-
-          // Accent dot follows the pointer (and only shows on hover).
-          if (cursor) {
-            cursorX += (mx - cursorX) * 0.28;
-            cursorY += (my - cursorY) * 0.28;
-            cursor.style.transform =
-              'translate3d(' + (cursorX - 7).toFixed(1) + 'px, ' + (cursorY - 7).toFixed(1) + 'px, 0)';
           }
 
           raf = requestAnimationFrame(loop);

@@ -10,7 +10,14 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"http://localhost:3456/css/mood-designs-custom.css\")",
       "mcp__Claude_Preview__preview_start",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5599/index.html)",
-      "Bash(copy \"D:\\\\pixel web developers\\\\Clients\\\\MoodDesigns\\\\Website\\\\assets\\\\img\\\\brand\\\\*.svg\" \"D:\\\\pixel web developers\\\\Clients\\\\MoodDesigns\\\\New-Website\\\\page-images\\\\home\\\\brands\\\\\")"
+      "Bash(copy \"D:\\\\pixel web developers\\\\Clients\\\\MoodDesigns\\\\Website\\\\assets\\\\img\\\\brand\\\\*.svg\" \"D:\\\\pixel web developers\\\\Clients\\\\MoodDesigns\\\\New-Website\\\\page-images\\\\home\\\\brands\\\\\")",
+      "Bash(gh repo *)",
+      "WebSearch",
+      "Bash(python -)",
+      "Bash(sed -n '115,125p;155,162p' css/main.css)",
+      "Bash(sed -n '130,137p;1365,1375p;1428,1440p' css/mood-designs-custom.css)",
+      "Bash(sed -n '775,790p' js/app.js)",
+      "Bash(sed -n '1290,1320p' js/app.js)"
     ]
   }
 }
