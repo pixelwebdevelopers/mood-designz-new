@@ -47,7 +47,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <!-- Custom Browser Color End -->
 
-  <link rel="stylesheet" type="text/css" href="css/mood-designs-custom.css">
+  <link rel="stylesheet" type="text/css" href="css/mood-designs-custom.css?v=20260612">
 
   <!-- Case Studies — Horizontal Scroll, Bottom-Up Image Growth styles -->
   <style>
@@ -1865,9 +1865,9 @@
     })();
   </script>
 
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=20260612"></script>
 
-  <script src="js/mood-designs-custom.js"></script>
+  <script src="js/mood-designs-custom.js?v=20260612"></script>
 
   <!--
     Case Studies — Horizontal Scroll, Bottom-Up Image Growth
@@ -1938,10 +1938,14 @@
       // Fully-grown image height in px ( --cs-img-h, resolved per frame
       // so it tracks viewport resizes for free).
       function imgZonePx(pin) {
+        // Resolve vh against the pin's own height (CSS 100vh) rather
+        // than window.innerHeight, which churns as the mobile URL bar
+        // collapses and made the image line drift mid-scroll.
+        var vh = pin.clientHeight || window.innerHeight;
         var v = getComputedStyle(pin).getPropertyValue('--cs-img-h').trim();
         var n = parseFloat(v);
-        if (v.indexOf('vh') !== -1) return window.innerHeight * n / 100;
-        return n || window.innerHeight * 0.72;
+        if (v.indexOf('vh') !== -1) return vh * n / 100;
+        return n || vh * 0.72;
       }
 
       // ---- build the pinned track ----------------------------------------
@@ -2030,8 +2034,12 @@
         // viewport width. Clamped, so a card that finished growing stays
         // fully grown while it keeps moving left and out of the screen.
         function updateGrowth() {
-          var vw = window.innerWidth;
-          var vh = window.innerHeight;
+          // Use the pin's own box, not window.inner* — innerHeight
+          // changes continuously while the mobile URL bar collapses,
+          // which made the card heights shift mid-scroll. The pin is
+          // 100vh, and CSS vh is stable during URL-bar movement.
+          var vw = document.documentElement.clientWidth;
+          var vh = pin.clientHeight || window.innerHeight;
           var zone = imgZonePx(pin);
           var minH = vh * (vw < MOBILE_BREAKPOINT ? MIN_H_MOBILE : MIN_H);
           var grownX = vw * GROWN_AT;
@@ -2085,7 +2093,10 @@
           start: 'top top',
           end: function () { return '+=' + (getDistance() * SCROLL_DISTANCE); },
           pin: pin,
-          pinType: 'transform',
+          /* pinType left at the default ('fixed' for the body scroller).
+             A transform pin is applied by JS one frame behind the
+             compositor-thread touch scroll, which made the section
+             jitter on real phones. */
           scrub: SCRUB_SMOOTH,
           anticipatePin: 1,
           invalidateOnRefresh: true,

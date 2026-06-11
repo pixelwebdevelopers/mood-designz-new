@@ -17,7 +17,11 @@
       "Bash(sed -n '115,125p;155,162p' css/main.css)",
       "Bash(sed -n '130,137p;1365,1375p;1428,1440p' css/mood-designs-custom.css)",
       "Bash(sed -n '775,790p' js/app.js)",
-      "Bash(sed -n '1290,1320p' js/app.js)"
+      "Bash(sed -n '1290,1320p' js/app.js)",
+      "PowerShell(\\(Get-Content \"css\\\\mood-designs-custom.css\" | Measure-Object -Line\\).Lines)",
+      "Bash(awk '/^[^ }@].*\\\\{$|^\\\\..*\\\\{|^[ ]*\\\\..*\\\\{/{sel=$0} /background\\(-color\\)?: var\\\\\\(--accent\\\\\\)/{bg=1} /color: var\\\\\\(--t-opp|color: var\\\\\\(--st-opp/{if\\(bg\\){print NR\": \"sel\" -> \"$0}} /\\\\}/{bg=0}' \"css/main.css\")",
+      "Bash(grep -v \"^\\\\-\\\\-$\")",
+      "Bash(cd \"/d/pixel web developers/Clients/MoodDesigns/New-Website\" && grep -n 'href=\"css/mood-designs-custom.css\"\\\\|src=\"js/mood-designs-custom.js\"\\\\|src=\"js/app.js\"' index.html about-us.html portfolio.html contact.html casestudy.html)"
     ]
   }
 }

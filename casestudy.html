@@ -18,7 +18,7 @@
 
     <!-- Template Favicon & Icons Start -->
     <link rel="icon" href="img/favicon/favicon.ico" sizes="any">
-    <link rel="icon" href="img/favicon/icon.svg" type="image/svg+xml">
+    <link rel="icon" href="img/favicon/logo.png" type="image/svg+xml">
     <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
     <link rel="manifest" href="img/favicon/manifest.webmanifest">
     <!-- Template Favicon & Icons End -->
@@ -45,7 +45,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <!-- Custom Browser Color End -->
     
-    <link rel="stylesheet" type="text/css" href="css/mood-designs-custom.css">
+    <link rel="stylesheet" type="text/css" href="css/mood-designs-custom.css?v=20260612">
   </head>
 
   <body>
@@ -297,7 +297,9 @@
           <!-- Engine renders one <img> per caseStudyImage / caseStudyImage1 /
                caseStudyImage2 / ... field, stacked with zero spacing and no
                rounded corners. -->
-          <div class="mxd-project__block no-margin cs-gallery-block" style="padding: 4rem 0 0; width: 100vw !important; margin-left: calc(50% - 50vw) !important; margin-right: calc(50% - 50vw) !important; max-width: 100vw;">
+          <!-- Side padding lives in mood-designs-custom.css (.cs-gallery-block)
+               and matches the header's responsive gutters. -->
+          <div class="mxd-project__block no-margin cs-gallery-block" style="width: 100vw !important; margin-left: calc(50% - 50vw) !important; margin-right: calc(50% - 50vw) !important; max-width: 100vw;">
             <div id="cs-gallery-main" style="width: 100%; display: flex; flex-direction: column; gap: 0; font-size: 0; line-height: 0;"></div>
           </div>
           <!-- Project Block - Main Case Study Image(s) End -->
@@ -500,9 +502,9 @@
 
     <!-- Load Scripts Start -->
     <script src="js/libs.min.js"></script>
-    <script src="js/app.js"></script>
+    <script src="js/app.js?v=20260612"></script>
     
-    <script src="js/mood-designs-custom.js"></script>
+    <script src="js/mood-designs-custom.js?v=20260612"></script>
     <script src="js/casestudy-engine.js"></script>
   </body>
 

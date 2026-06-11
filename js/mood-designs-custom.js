@@ -17,7 +17,7 @@
             <a href="index.html">Home</a>
             <a href="about-us.html">About</a>
             <a href="portfolio.html">Portfolio</a>
-            <a href="#services">Services</a>
+            <a href="index.html#services">Services</a>
             <a href="contact.html">Contact</a>
         </nav>
         <div class="nav-actions">
@@ -107,7 +107,21 @@
         closeMenu.addEventListener('click', closeMenuFunc);
         overlay.addEventListener('click', closeMenuFunc);
 
-        // Handle scroll effect — hide on scroll down, show on scroll up
+        // Handle scroll effect — hide on scroll down, show on scroll up.
+        // On compact screens the pill is replaced by the template header
+        // (.mxd-header) + its hamburger (.mxd-nav__contain), so the same
+        // class is toggled on those too (the CSS only applies the hidden
+        // styles for them inside the mobile media query).
+        const templateHeader = document.querySelector('.mxd-header');
+        const navContain = document.querySelector('.mxd-nav__contain');
+        const setHeaderHidden = (hidden) => {
+            // Never hide while the fullscreen menu is open
+            if (hidden && document.querySelector('.mxd-nav__hamburger.nav-open')) return;
+            [header, templateHeader, navContain].forEach((el) => {
+                if (el) el.classList.toggle('header-hidden', hidden);
+            });
+        };
+
         let lastScrollY = window.scrollY;
         let ticking = false;
         const scrollThreshold = 5; // px of scroll before triggering hide/show
@@ -127,14 +141,14 @@
             if (currentScrollY > 80) {
                 if (delta > scrollThreshold) {
                     // Scrolling DOWN — hide the header
-                    header.classList.add('header-hidden');
+                    setHeaderHidden(true);
                 } else if (delta < -scrollThreshold) {
                     // Scrolling UP — show the header
-                    header.classList.remove('header-hidden');
+                    setHeaderHidden(false);
                 }
             } else {
                 // Near top — always show
-                header.classList.remove('header-hidden');
+                setHeaderHidden(false);
             }
 
             // Show/Hide WhatsApp Float after 100vh
@@ -155,6 +169,18 @@
             }
         });
     };
+
+    // When a fullscreen-menu link targets an anchor on the CURRENT page
+    // (e.g. "Services" clicked while already on the homepage), the
+    // template's smooth-scroll handler prevents navigation and scrolls
+    // behind the still-open menu — so close the menu first.
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('.main-menu__link');
+        if (!link || !link.hash) return;
+        const samePage = link.pathname.replace(/^\//, '') === location.pathname.replace(/^\//, '');
+        const openHamburger = document.querySelector('.mxd-nav__hamburger.nav-open');
+        if (samePage && openHamburger) openHamburger.click();
+    });
 
     // Run injection
     if (document.readyState === 'loading') {

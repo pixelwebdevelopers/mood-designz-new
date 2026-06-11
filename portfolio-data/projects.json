@@ -4,15 +4,6 @@
     "name": "The Kora",
     "category": "identity",
     "meta": "Studio // Identity",
-    "description": "The Atelier project represents a bold new chapter in contemporary identity design. Crafted for a prestigious creative studio, this body of work channels the raw energy of brutalist architecture into a refined visual language. Every typographic detail, every color choice, was meticulously calibrated to evoke a sense of sovereign authority and creative dominance. The result is a brand identity system that is not just a logo — it is a statement. A statement that commands attention, inspires trust, and refuses to be ignored.",
-    "coverImage": "portfolio-data/images/Kora-Cover.jpg",
-    "caseStudyImage": "portfolio-data/images/Kora.jpg"
-  },
-  {
-    "id": "studio-mono",
-    "name": "Studio Mono",
-    "category": "concept",
-    "meta": "Paper // Texture",
     "description": "Studio Mono is a deep dive into the intersection of analog craft and digital precision. Born from a fascination with the tactile qualities of paper, this conceptual project explores how organic textures can be synthesized into a hyper-modern digital aesthetic. The design philosophy revolves around constraint as a creative catalyst — monochromatic palettes, geometric grids, and the quiet power of negative space. The outcome is a visual system that feels simultaneously ancient and futuristic.",
     "coverImage": "portfolio-data/images/Kora-Cover.jpg",
     "caseStudyImage": "portfolio-data/images/kora/1 kora.webp",

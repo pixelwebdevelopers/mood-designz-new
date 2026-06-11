@@ -241,22 +241,120 @@
     transition: 0.3s;
 }
 
+/* ------------------------------------------------------------------
+   Compact screens (phones & tablets): the injected pill header is
+   replaced by the template's own header — logo on the left, theme
+   toggle + hamburger on the right — restyled as the pill. The template
+   hamburger opens the fullscreen template menu, so the pill's own
+   menu panel is not needed here.
+   ------------------------------------------------------------------ */
 @media (max-width: 1024px) {
     #mood-header {
-        width: 95%;
-        padding: 0 20px;
+        display: none !important;
     }
 
-    #mood-header .nav-links {
-        display: none;
+    /* Template header becomes the fixed pill */
+    .mxd-header {
+        position: fixed;
+        top: 12px;
+        left: 50%;
+        width: min(95vw, 720px);
+        height: 64px;
+        align-items: center;
+        /* right padding reserves room for the overlaid hamburger */
+        padding: 0 70px 0 20px;
+        background: rgba(22, 22, 22, 0.96);
+        border: 1px solid var(--mood-border);
+        border-radius: 100px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        z-index: 9998;
+        transform: translateX(-50%);
     }
 
-    #mood-header .menu-toggle {
-        display: flex;
+    /* The template hides .mxd-header after 10px of scroll (it was an
+       absolute header that scrolled away). As a fixed pill it must
+       stay visible — also keeps translateX from being clobbered by
+       the is-hidden scaleY transform. */
+    .mxd-header.is-hidden {
+        transform: translateX(-50%);
+        opacity: 1;
     }
 
-    #mood-header .cta-btn {
-        display: none;
+    /* Hide on scroll down, reappear on scroll up — same behavior as the
+       desktop pill. The header-hidden class is toggled by
+       mood-designs-custom.js on the template header and the hamburger
+       container together. (Placed after the .is-hidden override so it
+       wins when both classes are present.) */
+    .mxd-header,
+    .mxd-header.is-hidden {
+        transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s ease;
+    }
+    .mxd-header.header-hidden {
+        transform: translateX(-50%) translateY(-130%);
+        opacity: 0;
+        pointer-events: none;
+    }
+    .mxd-nav__contain {
+        transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s ease;
+    }
+    .mxd-nav__contain.header-hidden {
+        transform: translateY(-150%);
+        opacity: 0;
+    }
+    .mxd-nav__contain.header-hidden > * {
+        pointer-events: none;
+    }
+
+    /* When the fullscreen menu opens, drop below it (template behavior) */
+    .mxd-header.menu-is-visible {
+        z-index: 10;
+    }
+
+    .mxd-header__controls {
+        align-items: center;
+    }
+
+    /* The pill is always dark, so always use the white logo and a
+       light toggle icon regardless of the color scheme. */
+    .mxd-header .mood-header-logo-img.theme-light {
+        display: none !important;
+    }
+    .mxd-header .mood-header-logo-img.theme-dark {
+        display: block !important;
+    }
+    .mxd-header .mxd-color-switcher {
+        width: 4.6rem;
+        height: 4.6rem;
+        color: #fff;
+    }
+    .mxd-header .mxd-color-switcher i {
+        font-size: 2.2rem;
+    }
+
+    /* Hamburger rides inside the pill's right end: pill top 12px,
+       height 64px, button 46px -> top offset 12 + (64 - 46) / 2 = 21px.
+       The nav wrap must paint above the pill (z 9998) or the hamburger
+       is buried behind the pill's opaque background; .mxd-nav__contain
+       is pointer-events: none, so only the button itself catches taps. */
+    .mxd-nav__wrap {
+        z-index: 9999;
+        /* The wrap now sits above the pill, so it must not swallow taps
+           meant for the logo / theme toggle underneath. The hamburger
+           re-enables itself (.mxd-nav__contain > * is pointer-events:
+           auto), and the fullscreen menu is display: none when closed. */
+        pointer-events: none;
+    }
+    .mxd-nav__wrap .mxd-menu__wrapper {
+        pointer-events: auto;
+    }
+    .mxd-nav__contain {
+        margin-top: 21px;
+        min-height: 0;
+        padding: 0 calc((100vw - min(95vw, 720px)) / 2 + 9px) 0 0;
+    }
+    .mxd-nav__hamburger {
+        width: 4.6rem;
+        height: 4.6rem;
     }
 }
 
@@ -979,6 +1077,31 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
     padding: 1rem;
 }
 
+/* The template hides the hero button slot (which holds the video card)
+   below 768px. Show it on phones: centered between the floating logo
+   cluster and the bottom caption. Centering uses a full-width flex
+   strip, NOT a transform — GSAP scrubs this element's transform on
+   scroll and would clobber a translateX(-50%).
+   Height is vh-based so it clears the stat cards on short screens. */
+@media (max-width: 767.98px) {
+    .mxd-hero-02-static__btn {
+        display: flex;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 10.6rem;
+        justify-content: center;
+        pointer-events: none;
+    }
+    .mxd-hero-02-static__btn .mxd-hero-02__video-wrap {
+        pointer-events: auto;
+        width: auto;
+        height: clamp(9.6rem, 16vh, 16rem);
+        aspect-ratio: 246 / 160;
+        border-radius: 24px;
+    }
+}
+
 /* Custom Redesigned CTA Card (White Background & Overflowing Star) */
 .mxd-promo__inner.mood-promo-white {
     background-color: #ffffff !important;
@@ -1622,4 +1745,94 @@ html:not([color-scheme]) .mxd-cs-end-card__pill {
 @media (prefers-reduced-motion: reduce) {
   .mood-partners__track--ltr,
   .mood-partners__track--rtl { animation: none; }
+}
+
+/* ------------------------------------------------------------------
+   Case study page: gallery images get the same left/right gutters as
+   the header (3rem phone / 6rem tablet+ / 9rem wide), instead of
+   running full-bleed edge to edge.
+   ------------------------------------------------------------------ */
+.cs-gallery-block {
+    padding: 4rem 3rem 0;
+}
+@media only screen and (min-width: 768px) {
+    .cs-gallery-block {
+        padding: 4rem 6rem 0;
+    }
+}
+@media only screen and (min-width: 1600px) {
+    .cs-gallery-block {
+        padding: 4rem 9rem 0;
+    }
+}
+
+/* ------------------------------------------------------------------
+   Light mode: dark text/icons on the lime accent backgrounds
+   The template pairs accent (lime) backgrounds with "opposite" text
+   tokens (--t-opp-*). In dark mode those resolve to dark text — fine
+   on lime — but in light mode they flip to white, which is unreadable
+   on the green. Inside accent containers we pin the opposite tokens
+   to their dark-scheme (dark text) values, which every descendant
+   (.opposite headings, .t-opposite, outline tags/buttons, icons)
+   resolves automatically.
+   ------------------------------------------------------------------ */
+[color-scheme=light] .bg-accent,
+[color-scheme=light] .bg-additional,
+[color-scheme=light] .btn-accent,
+[color-scheme=light] .tag-accent,
+[color-scheme=light] .marquee__item.has-caption,
+[color-scheme=light] .mxd-hero-00__marquee,
+[color-scheme=light] .mxd-hero-01__marquee {
+    --t-opp-bright: var(--t-opp-bright--dark);
+    --t-opp-medium: var(--t-opp-medium--dark);
+    --t-opp-muted: var(--t-opp-muted--dark);
+    --st-opp-bright: var(--st-opp-bright--dark);
+}
+
+/* .btn-additional / .tag-additional are lime in BOTH themes but the
+   template gives them --t-bright text — white in dark mode. Their
+   text/icons must always be dark. */
+.btn-additional,
+.tag-additional {
+    color: #161616;
+}
+
+/* Text selection is lime in both themes; keep its text dark in light
+   mode too (the template uses --t-opp-bright, white in light mode). */
+[color-scheme=light] ::selection {
+    color: #161616;
+}
+[color-scheme=light] ::-moz-selection {
+    color: #161616;
+}
+
+/* ------------------------------------------------------------------
+   Mobile scroll performance
+   backdrop-filter on fixed elements forces the GPU to re-blur the
+   content scrolling underneath on every frame — a major source of
+   scroll lag on real phones. On coarse-pointer devices we swap the
+   blur for a slightly more opaque solid background instead.
+   ------------------------------------------------------------------ */
+@media (pointer: coarse) {
+  #mood-header,
+  #mood-header.scrolled {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(22, 22, 22, 0.96);
+  }
+  .mood-whatsapp-content {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(22, 22, 22, 0.94);
+  }
+  .mood-hero-stat-card {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background-color: rgba(10, 10, 10, 0.85);
+  }
+  #mood-overlay {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(0, 0, 0, 0.65);
+  }
 }

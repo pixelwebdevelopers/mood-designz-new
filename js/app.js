@@ -60,6 +60,16 @@
 gsap.registerPlugin(ScrollTrigger);
 gsap.registerPlugin(Flip);
 
+// On mobile the browser UI (URL bar) collapsing/expanding fires resize
+// events mid-scroll; a full ScrollTrigger.refresh() on each one makes
+// every page stutter. Width changes (rotation) still refresh normally.
+ScrollTrigger.config({ ignoreMobileResize: true });
+
+// Touch devices scroll on the compositor thread, so any JS that
+// repositions elements per scroll frame (parallax) lands a frame late
+// and reads as jitter. Gate those effects to fine-pointer devices.
+const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+
 // --------------------------------------------- //
 // Loader & Loading Animation Start
 // --------------------------------------------- //
@@ -668,24 +678,28 @@ $(function() {
 // --------------------------------------------- //
 // Parallax - Ukiyo Images & Video Start
 // --------------------------------------------- //
-const images = document.querySelectorAll(".parallax-img");
-const imagesSmall = document.querySelectorAll(".parallax-img-small");
-const video = document.querySelectorAll(".parallax-video");
-new Ukiyo(images,{
-  scale: 1.5,
-  speed: 1.5,
-  externalRAF: false,
-});
-new Ukiyo(imagesSmall,{
-  scale: 1.2,
-  speed: 1.5,
-  externalRAF: false
-});
-new Ukiyo(video,{
-  scale: 1.5,
-  speed: 1.5,
-  externalRAF: false
-});
+// Skipped on touch devices: per-frame parallax repositioning fights
+// compositor-thread scrolling and causes visible jitter on real phones.
+if (!isTouchDevice) {
+  const images = document.querySelectorAll(".parallax-img");
+  const imagesSmall = document.querySelectorAll(".parallax-img-small");
+  const video = document.querySelectorAll(".parallax-video");
+  new Ukiyo(images,{
+    scale: 1.5,
+    speed: 1.5,
+    externalRAF: false,
+  });
+  new Ukiyo(imagesSmall,{
+    scale: 1.2,
+    speed: 1.5,
+    externalRAF: false
+  });
+  new Ukiyo(video,{
+    scale: 1.5,
+    speed: 1.5,
+    externalRAF: false
+  });
+}
 // --------------------------------------------- //
 // Parallax - Ukiyo Images & Video End
 // --------------------------------------------- //
@@ -1282,7 +1296,9 @@ const initMarquees = () => {
         paused: true 
       });
       let timeScaleClamp = gsap.utils.clamp(1, 6);
-      ScrollTrigger.create({
+      // The scroll-velocity boost restarts a tween on every scroll tick;
+      // skip it on touch devices where that cost shows up as scroll lag.
+      if (!isTouchDevice) ScrollTrigger.create({
         start: 0,
         end: "max",
         onUpdate: (self) => {
@@ -1336,7 +1352,7 @@ const initMarquee = () => {
         paused: true 
       });
       let timeScaleClamp = gsap.utils.clamp(1, 6);
-      ScrollTrigger.create({
+      if (!isTouchDevice) ScrollTrigger.create({
         start: 0,
         end: "max",
         onUpdate: (self) => {
@@ -1390,7 +1406,7 @@ const initMarqueeLeft = () => {
         paused: true 
       });
       let timeScaleClamp = gsap.utils.clamp(1, 6);
-      ScrollTrigger.create({
+      if (!isTouchDevice) ScrollTrigger.create({
         start: 0,
         end: "max",
         onUpdate: (self) => {
@@ -1506,16 +1522,20 @@ $(".btn-to-top").each(function() {
 // ------------------------------------------------------------------------------ //
 // Parallax Universal (apply parallax effect to any element with a data-speed attribute) Start
 // ------------------------------------------------------------------------------ //
-gsap.to("[data-speed]", {
-  y: (i, el) => (1 - parseFloat(el.getAttribute("data-speed"))) * ScrollTrigger.maxScroll(window) ,
-  ease: "none",
-  scrollTrigger: {
-    start: 0,
-    end: "max",
-    invalidateOnRefresh: true,
-    scrub: 0
-  }
-});
+// Skipped on touch devices for the same reason as the Ukiyo parallax:
+// scrub-driven transforms lag native touch scrolling by a frame.
+if (!isTouchDevice) {
+  gsap.to("[data-speed]", {
+    y: (i, el) => (1 - parseFloat(el.getAttribute("data-speed"))) * ScrollTrigger.maxScroll(window) ,
+    ease: "none",
+    scrollTrigger: {
+      start: 0,
+      end: "max",
+      invalidateOnRefresh: true,
+      scrub: 0
+    }
+  });
+}
 // --------------------------------------------- //
 // Parallax Universal End
 // --------------------------------------------- //
