@@ -880,15 +880,15 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
         gap: 2px;
     }
     .mood-hero-stat-card .mxd-counter__number {
-        font-size: 1.4rem !important;
+        font-size: 1.46rem !important;
     }
     .mood-hero-stat-card .mxd-counter__descr {
-        font-size: 9px;
+        font-size: 10px;
         letter-spacing: 0.5px;
     }
     .mood-hero-stat-card .mxd-hero__mark.style-custom-stat { gap: 6px; }
     .mood-hero-stat-card .mxd-hero__mark.style-custom-stat .style-custom-globe {
-        font-size: 16px !important;
+        font-size: 22px !important;
     }
 }
 
@@ -908,7 +908,7 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
 }
 
 .mood-hero-stat-card .mxd-counter__number {
-    font-size: clamp(2.5rem, 4vw, 3.8rem) !important;
+    font-size: clamp(2.56rem, 4vw, 3.86rem) !important;
     line-height: 1;
     font-weight: 700;
     color: var(--mood-lime) !important;
@@ -916,7 +916,7 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
 
 .mood-hero-stat-card .mxd-counter__descr {
     line-height: 1.3;
-    font-size: 14px;
+    font-size: 15px;
 
     letter-spacing: 1px;
     color: rgba(255, 255, 255, 0.7);
@@ -932,7 +932,7 @@ html:not([color-scheme]) .mood-header-logo-img.theme-dark {
 }
 
 .mood-hero-stat-card .mxd-hero__mark.style-custom-stat .style-custom-globe {
-    font-size: 24px !important;
+    font-size: 34px !important;
     color: var(--mood-lime) !important;
     line-height: 1;
     display: inline-block;
@@ -1861,3 +1861,79 @@ html:not([color-scheme]) .mxd-cs-end-card__pill {
   border-radius: 4px;
   flex: 0 0 auto;
 }
+
+/* ==========================================================================
+   About hero "Agency" marquee — narrower container only.
+   Text size, pill height and vertical position are left exactly as the
+   template defines them. We ONLY reduce the container width and add a matching
+   `right` offset so the LEFT edge stays locked beside the headline (the right
+   edge retracts), keeping the text the same size and avoiding any gap.
+   ========================================================================== */
+/* Shrink the invisible "your work" placeholder to the marquee width so the
+   centred title flow packs "Design" + (narrow slot) as a tight, centred pair.
+   The text is transparent so clipping it is invisible. */
+.mxd-hero-00 .hero-00-title__item.title-item-transparent {
+  overflow: hidden;
+  white-space: nowrap;
+}
+/* The marquee overlays the (now narrow, centred) "your work" slot. We position
+   its centre at the slot centre = title-wrap centre + K, where K is constant per
+   breakpoint (it depends only on the rem-based "Design" width + gap). Using
+   left: calc(50% + K - width/2) keeps it tracking the centre responsively. */
+@media only screen and (min-width: 768px) {
+  .mxd-hero-00__marquee {
+    width: 290px;                 /* was 484px */
+    left: calc(50% - 6px);        /* 50% + K(139) - width/2(145) */
+    right: auto;
+  }
+  .mxd-hero-00 .hero-00-title__item.title-item-transparent {
+    flex: 0 0 290px;
+    width: 290px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .mxd-hero-00__marquee {
+    width: 431px;                 /* was 719px */
+    left: calc(50% - 4.5px);      /* 50% + K(211) - width/2(215.5) */
+    right: auto;
+  }
+  .mxd-hero-00 .hero-00-title__item.title-item-transparent {
+    flex: 0 0 431px;
+    width: 431px;
+  }
+}
+@media only screen and (min-width: 1600px) {
+  .mxd-hero-00__marquee {
+    width: 490px;                 /* was 816px */
+    left: calc(50% - 1px);        /* 50% + K(244) - width/2(245) */
+    right: auto;
+  }
+  .mxd-hero-00 .hero-00-title__item.title-item-transparent {
+    flex: 0 0 490px;
+    width: 490px;
+  }
+}
+
+/* Re-anchor the decorative star to the marquee's right corner (it used to sit
+   on the full-width marquee). We centre the star on the marquee's right edge =
+   parent centre + K + marquee-width/2, so it tracks the marquee responsively.
+   right: calc(50% - (K + marqueeW/2 + starW/2)). */
+@media only screen and (min-width: 768px) {
+  .mxd-hero-00 .hero-00-image.image-02 {
+    left: auto;
+    right: calc(50% - 334px);   /* K139 + mqW/2 145 + starW/2 50 */
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .mxd-hero-00 .hero-00-image.image-02 {
+    left: auto;
+    right: calc(50% - 496.5px); /* K211 + mqW/2 215.5 + starW/2 70 */
+  }
+}
+@media only screen and (min-width: 1600px) {
+  .mxd-hero-00 .hero-00-image.image-02 {
+    left: auto;
+    right: calc(50% - 579px);   /* K244 + mqW/2 245 + starW/2 90 */
+  }
+}
+

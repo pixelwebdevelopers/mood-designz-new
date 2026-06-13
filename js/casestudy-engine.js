@@ -14,6 +14,8 @@
     const titleEl = document.getElementById("cs-title");
     const subtitleEl = document.getElementById("cs-subtitle");
     const clientEl = document.getElementById("cs-client");
+    const clientItemEl = document.getElementById("cs-client-item");
+    const sectionTitleEl = document.getElementById("cs-section-title");
     const categoryEl = document.getElementById("cs-category");
     const scopeEl = document.getElementById("cs-scope");
     const yearEl = document.getElementById("cs-year");
@@ -84,10 +86,21 @@
         if (challengeLeadEl) challengeLeadEl.textContent = leadSentence;
         if (challengeDescEl) challengeDescEl.textContent = bodySentence || descText;
 
-        if (clientEl) clientEl.textContent = "Mood Designz Client";
+        // Client — only shown when provided per-project in the JSON ("client").
+        // Otherwise the row is hidden so we never display a generic placeholder.
+        if (project.client) {
+            if (clientEl) clientEl.textContent = project.client;
+            if (clientItemEl) clientItemEl.style.display = "";
+        } else if (clientItemEl) {
+            clientItemEl.style.display = "none";
+        }
+
         if (categoryEl) categoryEl.textContent = categoryLabel;
         if (scopeEl) scopeEl.textContent = project.meta;
-        if (yearEl) yearEl.textContent = "2026";
+
+        // Optional per-project overrides (fall back to the neutral defaults in the HTML)
+        if (sectionTitleEl && project.sectionTitle) sectionTitleEl.textContent = project.sectionTitle;
+        if (yearEl && project.year) yearEl.textContent = project.year;
 
         // Generate outline tags
         if (tagsEl) {

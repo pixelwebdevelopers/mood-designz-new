@@ -201,20 +201,8 @@
                       <p class="inner-headline__text t-large t-bright loading__item">Explore how we&rsquo;ve helped over 500+ brands make their mark.</p>
                       
                       <!-- Filter Buttons inside Headline Block! -->
-                      <div class="mood-portfolio-filters loading__item" style="margin-top: 3rem; display: flex; flex-wrap: wrap; gap: 1rem;">
-                        <button class="btn btn-anim btn-default btn-outline filter-tab active" data-filter="all" style="padding: 0.8rem 1.8rem;">
-                          <span class="btn-caption">All Archive</span>
-                        </button>
-                        <button class="btn btn-anim btn-default btn-outline filter-tab" data-filter="identity" style="padding: 0.8rem 1.8rem;">
-                          <span class="btn-caption">Identity</span>
-                        </button>
-                        <button class="btn btn-anim btn-default btn-outline filter-tab" data-filter="concept" style="padding: 0.8rem 1.8rem;">
-                          <span class="btn-caption">Concept</span>
-                        </button>
-                        <button class="btn btn-anim btn-default btn-outline filter-tab" data-filter="spatial" style="padding: 0.8rem 1.8rem;">
-                          <span class="btn-caption">Spatial</span>
-                        </button>
-                      </div>
+                      <!-- Filter buttons are generated dynamically from the project categories in portfolio-data/projects.json by portfolio-engine.js -->
+                      <div class="mood-portfolio-filters loading__item" id="portfolio-filters" style="margin-top: 3rem; display: flex; flex-wrap: wrap; gap: 1rem;"></div>
                       
                       <div class="portfolio-count loading__item" id="portfolio-count" style="margin-top: 2rem; font-size: 13px; font-weight: 500; opacity: 0.7;">
                         Showing <span class="portfolio-count__num" style="color: var(--additional); font-weight: bold;">0</span> of <span class="portfolio-count__num" style="color: var(--additional); font-weight: bold;">0</span> Projects
@@ -314,11 +302,6 @@
             </div>
           <!-- links -->
           <div class="footer-blocks__links anim-uni-in-up">
-            <p class="t-xsmall t-muted">
-              <i class="ph-bold ph-copyright"></i>
-              <a class="no-effect" href="https://mooddesignz.com" target="_blank">Mood Designz</a>
-              2026
-            </p>
             <p class="t-xsmall t-muted mood-dev-credit">
               Developed by
               <img class="mood-dev-logo" src="mood-designs-img/pixel-web-developers.png" alt="Pixel Web Developers">
@@ -400,12 +383,20 @@
                   <li class="footer-socials__item anim-uni-in-up"><a href="https://dribbble.com/Mood-Design?onboarding=true&designer=true" class="footer-socials__link" target="_blank">Dribbble</a></li>
                   <li class="footer-socials__item anim-uni-in-up"><a href="https://www.behance.net/Mooddesignandco" class="footer-socials__link" target="_blank">Behance</a></li>
                   <li class="footer-socials__item anim-uni-in-up"><a href="https://www.instagram.com/mood_designz_/?hl=en" class="footer-socials__link" target="_blank">Instagram</a></li>
-                  <li class="footer-socials__item anim-uni-in-up"><a href="https://github.com/" class="footer-socials__link" target="_blank">Github</a></li>
-                  <li class="footer-socials__item anim-uni-in-up"><a href="https://codepen.io/" class="footer-socials__link" target="_blank">Codepen</a></li>
-                  <li class="footer-socials__item anim-uni-in-up"><a href="https://www.figma.com/" class="footer-socials__link" target="_blank">Figma</a></li>
+                  <li class="footer-socials__item anim-uni-in-up"><a href="https://www.fiverr.com/" class="footer-socials__link" target="_blank">Fiverr</a></li>
+                  <li class="footer-socials__item anim-uni-in-up"><a href="https://www.upwork.com/" class="footer-socials__link" target="_blank">Upwork</a></li>
+                  <li class="footer-socials__item anim-uni-in-up"><a href="https://contra.com/" class="footer-socials__link" target="_blank">Contra</a></li>
                 </ul>
               </div>
             </div>
+          <!-- links -->
+          <div class="footer-blocks__links anim-uni-in-up">
+            <p class="t-xsmall t-muted">
+              <i class="ph-bold ph-copyright"></i>
+              <a class="no-effect" href="https://mooddesignz.com" target="_blank">Mood Designz</a>
+              2026
+            </p>
+          </div>
 
           </div>
         </div>

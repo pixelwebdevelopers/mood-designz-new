@@ -178,6 +178,31 @@
         loadNextBatch();
     }
 
+    // Build the filter tabs dynamically from the categories present in the data.
+    // "All Archive" always comes first, followed by one tab per unique category
+    // (in the order they first appear in the JSON).
+    function renderFilters() {
+        const filterContainer = document.getElementById("portfolio-filters");
+        if (!filterContainer) return;
+
+        const categories = [];
+        allProjects.forEach((p) => {
+            if (p.category && !categories.includes(p.category)) {
+                categories.push(p.category);
+            }
+        });
+
+        const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+        const tab = (filter, label, active) =>
+            `<button class="btn btn-anim btn-default btn-outline filter-tab${active ? " active" : ""}" data-filter="${filter}" style="padding: 0.8rem 1.8rem;">
+                <span class="btn-caption">${label}</span>
+            </button>`;
+
+        filterContainer.innerHTML =
+            tab("all", "All Archive", true) +
+            categories.map((c) => tab(c, cap(c), false)).join("");
+    }
+
     function setupFilterListeners() {
         document.addEventListener("click", (e) => {
             const tab = e.target.closest(".filter-tab");
@@ -209,6 +234,9 @@
         if (projects.length === 0) return;
 
         filteredProjects = [...projects];
+
+        // Build category filter tabs from the data
+        renderFilters();
 
         // Load first batch
         loadNextBatch();

@@ -66,12 +66,19 @@
         const heroStat2 = document.getElementById('hero-stat-counter-2');
 
         if (heroStat1 && heroStat2 && typeof countUp !== 'undefined') {
-            const optionsPlus = {
-                suffix: '+',
+            // Years of experience — plain number, no "+" suffix
+            const optionsYears = {
+                suffix: '',
                 enableScrollSpy: false // trigger immediately on load
             };
-            const statsCounter1 = new countUp.CountUp("hero-stat-counter-1", 10, optionsPlus);
-            const statsCounter2 = new countUp.CountUp("hero-stat-counter-2", 1500, optionsPlus);
+            // Successful projects — keep "+", but no thousands comma (1500+ not 1,500+)
+            const optionsProjects = {
+                suffix: '+',
+                separator: '',
+                enableScrollSpy: false
+            };
+            const statsCounter1 = new countUp.CountUp("hero-stat-counter-1", 10, optionsYears);
+            const statsCounter2 = new countUp.CountUp("hero-stat-counter-2", 1500, optionsProjects);
 
             // Start after a slight delay to allow page loader to complete (usually 2-3s)
             setTimeout(() => {
