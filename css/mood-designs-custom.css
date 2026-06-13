@@ -1836,3 +1836,28 @@ html:not([color-scheme]) .mxd-cs-end-card__pill {
     background: rgba(0, 0, 0, 0.65);
   }
 }
+
+/* ==========================================================================
+   Team photos — anchor to the top so members' heads are never cropped
+   ========================================================================== */
+.mxd-team-cards__photo img {
+  object-position: top center;
+}
+
+/* ==========================================================================
+   Footer / menu credit — "Developed by [logo] Pixel Web Developers"
+   ========================================================================== */
+.mood-dev-credit {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.mood-dev-logo {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0.45em;
+  border-radius: 4px;
+  flex: 0 0 auto;
+}
