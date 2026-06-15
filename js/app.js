@@ -774,28 +774,34 @@ if(document.querySelector(".stack-item")) {
 // --------------------------------------------- //
 // Animation - Buttons Common Start
 // --------------------------------------------- //
-let elements = document.querySelectorAll(".btn-anim .btn-caption");
+window.initializeButtonAnimations = function(container = document) {
+  let elements = container.querySelectorAll(".btn-anim .btn-caption:not(.btn-anim-initialized)");
 
-elements.forEach((element) => {
-  let innerText = element.innerText;
-  element.innerHTML = "";
-  let textContainer = document.createElement("div");
-  textContainer.classList.add("btn-anim__block");
-  for (let letter of innerText) {
-    let span = document.createElement("span");
-    span.innerText = letter.trim() === "" ? "\xa0" : letter;
-    span.classList.add("btn-anim__letter");
-    textContainer.appendChild(span);
-  }
+  elements.forEach((element) => {
+    element.classList.add("btn-anim-initialized");
+    let innerText = element.innerText;
+    element.innerHTML = "";
+    let textContainer = document.createElement("div");
+    textContainer.classList.add("btn-anim__block");
+    for (let letter of innerText) {
+      let span = document.createElement("span");
+      span.innerText = letter.trim() === "" ? "\xa0" : letter;
+      span.classList.add("btn-anim__letter");
+      textContainer.appendChild(span);
+    }
     element.appendChild(textContainer);
     element.appendChild(textContainer.cloneNode(true));
-});
+  });
 
-elements.forEach((element) => {
-  element.addEventListener("mouseover", () => {
-    element.classList.remove("play");
-  })
-});
+  elements.forEach((element) => {
+    element.addEventListener("mouseover", () => {
+      element.classList.remove("play");
+    });
+  });
+};
+
+// Initialize static buttons on load
+initializeButtonAnimations();
 // --------------------------------------------- //
 // Animation - Buttons Common End
 // --------------------------------------------- //

@@ -55,7 +55,7 @@
         const categoryLabel = project.category.charAt(0).toUpperCase() + project.category.slice(1);
         const tags = [categoryLabel, ...project.meta.split("//").map(s => s.trim())];
         const tagsHTML = tags.map(tag => `<span class="tag tag-default tag-permanent">${tag}</span>`).join("\n");
-        
+
         return `
             <div class="col-12 col-xl-6 mxd-project-item mxd-projects-masonry__item card-enter active anim-uni-in-up" 
                  data-category="${project.category}" 
@@ -199,7 +199,7 @@
             </button>`;
 
         filterContainer.innerHTML =
-            tab("all", "All Archive", true) +
+            tab("all", "All Projects", true) +
             categories.map((c) => tab(c, cap(c), false)).join("");
     }
 
@@ -237,6 +237,9 @@
 
         // Build category filter tabs from the data
         renderFilters();
+        if (typeof window.initializeButtonAnimations === "function") {
+            window.initializeButtonAnimations(document.getElementById("portfolio-filters"));
+        }
 
         // Load first batch
         loadNextBatch();

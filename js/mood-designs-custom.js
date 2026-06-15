@@ -16,7 +16,7 @@
         <nav class="nav-links">
             <a href="index.html">Home</a>
             <a href="about-us.html">About</a>
-            <a href="portfolio.html">Portfolio</a>
+            <a href="portfolio.html">Projects</a>
             <a href="index.html#services">Services</a>
             <a href="contact.html">Contact</a>
         </nav>
@@ -35,11 +35,11 @@
         <button class="close-menu" aria-label="Close Menu">&times;</button>
         <a href="index.html">Home</a>
         <a href="about-us.html">About</a>
-        <a href="portfolio.html">Portfolio</a>
+        <a href="portfolio.html">Projects</a>
         <a href="contact.html">Contact</a>
     </nav>
 
-    <a href="https://wa.me/923029850812" class="mood-whatsapp-float" target="_blank">
+    <a href="https://wa.me/923214086407" class="mood-whatsapp-float" target="_blank">
         <div class="mood-whatsapp-content">
             <span class="mood-whatsapp-text">Say Hello!</span>
             <div class="mood-whatsapp-icon">

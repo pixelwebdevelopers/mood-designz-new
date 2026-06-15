@@ -1840,6 +1840,11 @@ html:not([color-scheme]) .mxd-cs-end-card__pill {
 /* ==========================================================================
    Team photos — anchor to the top so members' heads are never cropped
    ========================================================================== */
+.mxd-team-cards__photo picture {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
 .mxd-team-cards__photo img {
   object-position: top center;
 }
@@ -1934,6 +1939,18 @@ html:not([color-scheme]) .mxd-cs-end-card__pill {
   .mxd-hero-00 .hero-00-image.image-02 {
     left: auto;
     right: calc(50% - 579px);   /* K244 + mqW/2 245 + starW/2 90 */
+  }
+}
+
+/* Make email link green on mobile without hover */
+@media only screen and (max-width: 767px) {
+  .btn-line-headline span {
+    color: var(--accent) !important;
+    font-size: 2.5rem;
+  }
+  .btn-line-headline i {
+    color: var(--accent) !important;
+    
   }
 }
 
