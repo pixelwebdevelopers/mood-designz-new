@@ -21,13 +21,22 @@
     "caseStudyImage13": "portfolio-data/images/kora/13 kora.webp"
   },
   {
-    "id": "oak-and-iron",
-    "name": "Oak & Iron",
+    "id": "Bedgear",
+    "name": "Bedgear",
     "category": "spatial",
     "meta": "Timber // Frame",
     "description": "Oak & Iron is the physical manifestation of our design philosophy: that true luxury lives in the dialogue between raw materials and masterful craftsmanship. This spatial design project for a high-end residential pavilion in rural Provence juxtaposes the warmth of reclaimed oak with the unforgiving strength of hand-forged iron. Every structural beam, every joint, every shadow cast by the afternoon sun was considered. The space does not just exist; it breathes, ages, and tells a story.",
-    "coverImage": "portfolio-data/images/s3.jpg",
-    "caseStudyImage": "portfolio-data/images/project_vision.png"
+    "coverImage": "portfolio-data/images/bedgear/Bedgear-cover.webp",
+    "caseStudyImage": "portfolio-data/images/bedgear/Bedgear 1.webp",
+    "caseStudyImage1": "portfolio-data/images/bedgear/Bedgear 2.webp",
+    "caseStudyImage2": "portfolio-data/images/bedgear/Bedgear 3.webp",
+    "caseStudyImage3": "portfolio-data/images/bedgear/Bedgear 4.webp",
+    "caseStudyImage4": "portfolio-data/images/bedgear/Bedgear 5.webp",
+    "caseStudyImage5": "portfolio-data/images/bedgear/Bedgear 6.webp",
+    "caseStudyImage6": "portfolio-data/images/bedgear/Bedgear 7.webp",
+    "caseStudyImage7": "portfolio-data/images/bedgear/Bedgear 8.webp",
+    "caseStudyImage8": "portfolio-data/images/bedgear/Bedgear 9.webp",
+    "caseStudyImage9": "portfolio-data/images/bedgear/Bedgear 10.webp"
   },
   {
     "id": "the-library",
