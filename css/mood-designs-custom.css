@@ -1954,3 +1954,35 @@ html:not([color-scheme]) .mxd-cs-end-card__pill {
   }
 }
 
+/* Testimonial background image sizing & coverage fix */
+.mxd-testimonials-image__img {
+  display: flex;
+  justify-content: center; /* Center on mobile */
+  align-items: center;
+  margin-top: 2rem; /* Add spacing on mobile between text and image */
+  background: none !important;
+}
+
+.mxd-testimonials-image__img img {
+  width: 240px;
+  height: 320px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+@media only screen and (min-width: 1200px) {
+  .mxd-testimonials-image__img {
+    display: flex;
+    justify-content: flex-start; /* Align next to text on desktop */
+    align-items: center !important;
+    height: 100% !important;
+    margin-top: 0;
+    background: none !important;
+  }
+}
+
+/* About page divider image update */
+.divider-image-7 {
+  background-image: url(../mood-designs-img/about-page/Untitled-1.webp) !important;
+}
+

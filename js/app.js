@@ -601,14 +601,33 @@ $(function() {
   // Magnific Popup Video Start
   // --------------------------------------------- //
   $('#showreel-trigger').magnificPopup({
-    type: 'iframe',
+    type: 'inline',
     mainClass: 'mfp-fade',
     removalDelay: 160,
     preloader: false,
     fixedContentPos: false,
     callbacks: {
-      beforeOpen: function() { $('body').addClass('overflow-hidden'); lenis.stop(); },
-      close: function() { $('body').removeClass('overflow-hidden'); lenis.start(); }
+      beforeOpen: function() { 
+        $('body').addClass('overflow-hidden'); 
+        lenis.stop(); 
+      },
+      open: function() {
+        var video = $('#hero-modal-video')[0];
+        if (video) {
+          video.currentTime = 0;
+          video.play().catch(function(e) {
+            console.log("Autoplay blocked or failed:", e);
+          });
+        }
+      },
+      close: function() { 
+        var video = $('#hero-modal-video')[0];
+        if (video) {
+          video.pause();
+        }
+        $('body').removeClass('overflow-hidden'); 
+        lenis.start(); 
+      }
     }
   });
   // --------------------------------------------- //
