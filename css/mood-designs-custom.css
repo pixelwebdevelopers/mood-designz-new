@@ -1981,6 +1981,13 @@ html:not([color-scheme]) .mxd-cs-end-card__pill {
   }
 }
 
+/* Service card image — cap at 50% card width on desktop so it doesn't overlap text */
+@media only screen and (min-width: 992px) {
+  .services-stack__image {
+    max-width: 50%;
+  }
+}
+
 /* About page divider image update */
 .divider-image-7 {
   background-image: url(../mood-designs-img/about-page/Untitled-1.webp) !important;
